@@ -1,0 +1,17 @@
+# Derived/local memory infrastructure; canonical Markdown remains tracked.
+.ai/.cache/
+.ai/runtime/
+.ai/index/*.db
+.ai/index/*.db-*
+.ai/index/*.sqlite
+.ai/index/*.sqlite3
+.ai/local/
+template/.ai/.cache/
+template/.ai/runtime/
+template/.ai/index/*.db
+template/.ai/index/*.db-*
+template/.ai/index/*.sqlite
+template/.ai/index/*.sqlite3
+template/.ai/local/
+.DS_Store
+*.swp
