@@ -9,4 +9,5 @@ status, so abbreviations are written without backticks here.
 - [x] `DONE` Append a correction note to the archived apmf-rename-and-about evidence
 - [x] `DONE` Update CHANGELOG and .ai/NOW.md
 - [x] `DONE` Run the full validation suite and record evidence
-- [ ] `TODO` Push, confirm GitHub CI green, merge to main, then archive
+- [x] `DONE` Push `fix/apmf-ci-name` and confirm GitHub CI green (run 36543893144)
+- [ ] `TODO` Fast-forward merge to `main`, confirm CI there, then archive this change
