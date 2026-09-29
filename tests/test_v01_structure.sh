@@ -49,5 +49,29 @@ if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     || bad '.ai/changes has tracked placeholder content'
 fi
 
+# End-to-end lifecycle regression: init -> active change -> all tasks DONE -> archive
+# must leave the generated project valid, with .ai/changes/ still present.
+lifecycle="$tmp/lifecycle"
+mkdir "$lifecycle"; git -C "$lifecycle" init -q; git -C "$lifecycle" config user.email test@example.invalid; git -C "$lifecycle" config user.name test
+if "$ROOT/scripts/init.sh" "$lifecycle" >"$OUT" 2>&1; then
+  mkdir -p "$lifecycle/.ai/changes/lifecycle-demo"
+  cp "$lifecycle/.ai/changes/_template/"*.md "$lifecycle/.ai/changes/lifecycle-demo/"
+  sed 's/Active change: \*\*none\*\*/Active change: **lifecycle-demo**/' "$lifecycle/.ai/NOW.md" > "$lifecycle/NOW.tmp" && mv "$lifecycle/NOW.tmp" "$lifecycle/.ai/NOW.md"
+  git -C "$lifecycle" add .; git -C "$lifecycle" commit -qm active
+  sed -e 's/`TODO`/`DONE`/g' -e 's/`IN_PROGRESS`/`DONE`/g' "$lifecycle/.ai/changes/lifecycle-demo/tasks.md" > "$lifecycle/tasks.tmp" && mv "$lifecycle/tasks.tmp" "$lifecycle/.ai/changes/lifecycle-demo/tasks.md"
+  mkdir -p "$lifecycle/.ai/archive/changes"
+  git -C "$lifecycle" mv -q .ai/changes/lifecycle-demo .ai/archive/changes/lifecycle-demo 2>/dev/null \
+    || mv "$lifecycle/.ai/changes/lifecycle-demo" "$lifecycle/.ai/archive/changes/lifecycle-demo"
+  sed 's/Active change: \*\*lifecycle-demo\*\*/Active change: **none**/' "$lifecycle/.ai/NOW.md" > "$lifecycle/NOW.tmp" && mv "$lifecycle/NOW.tmp" "$lifecycle/.ai/NOW.md"
+  git -C "$lifecycle" add -A; git -C "$lifecycle" commit -qm archived
+  [[ -d "$lifecycle/.ai/changes" ]] && ok 'archival keeps .ai/changes directory' || bad 'archival keeps .ai/changes directory'
+  [[ -n "$(git -C "$lifecycle" ls-files -- .ai/changes/)" ]] \
+    && ok 'archival keeps .ai/changes tracked content' \
+    || bad 'archival keeps .ai/changes tracked content'
+  check 'project validates after archiving last change' "$ROOT/scripts/validate.sh" "$lifecycle"
+else
+  cat "$OUT"; bad 'lifecycle fixture init failed'
+fi
+
 (( fail == 0 )) && { echo 'all structure tests passed'; exit 0; }
 echo 'structure tests failed'; exit 1
