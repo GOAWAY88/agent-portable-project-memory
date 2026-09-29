@@ -7,4 +7,4 @@
 - [x] `DONE` Update `.ai/NOW.md` and `.ai/INDEX.md` to reflect the active change
 - [x] `DONE` Add end-to-end lifecycle regression test (init → change → DONE → archive → validate)
 - [x] `DONE` Re-run full validation suite and record lifecycle-test results in evidence.md
-- [ ] `TODO` Archive this change after review
+- [x] `DONE` Archive this change after review

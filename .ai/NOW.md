@@ -2,16 +2,16 @@
 updated: 2026-09-29
 branch: experiment/qwen-handoff
 baseline_commit: 3c2a31f26754f164312e2deafa5e030a01d3c016
-verified_at_commit: 75bb8267b12dd519d2172d6fde76801f8dda9f38
+verified_at_commit: 7a51e756d72ccb2f54c484ff65cfe93fd1421b28
 ---
 # Now
 
 Project: **Agent-Portable Project Memory Framework**
-Milestone: **V0.2 Memory Integrity complete; handoff fix verified in CI**
-Active change: **qwen-handoff-v0.1**
-Current task: **Extend the archival fix with an end-to-end lifecycle regression test (init → active change → DONE → archive → validate) in `tests/test_v01_structure.sh`; change artifacts updated, full suite passing locally.**
+Milestone: **V0.2 Memory Integrity complete; handoff fix and lifecycle regression verified in CI**
+Active change: **none**
+Current task: **Capture the project-profile idea (domain-specific init templates, candidate V0.3) in the roadmap; archive the completed handoff change.**
 Blockers: **none known**
-Next action: **Commit and push the lifecycle regression test, confirm GitHub CI is green, then archive `qwen-handoff-v0.1` and open the PR/merge to `main`.**
-Last verified state: **V0.1-alpha baseline is commit `3c2a31f26754f164312e2deafa5e030a01d3c016`; GitHub CI run 36513243993 passed on ubuntu-latest and macos-latest for commit `75bb8267b12dd519d2172d6fde76801f8dda9f38` (placeholder fix); lifecycle test verified locally at `75bb826` + working tree.**
+Next action: **Commit the archival plus roadmap update, push, confirm CI, then open a PR to merge `experiment/qwen-handoff` into `main`.**
+Last verified state: **V0.1-alpha baseline is commit `3c2a31f26754f164312e2deafa5e030a01d3c016`; GitHub CI runs 36513243993 (`75bb826`, placeholder fix) and 36515061871 (`7a51e75`, lifecycle regression test) both passed on ubuntu-latest and macos-latest.**
 
-Relevant pointers: `.ai/INDEX.md`, `.ai/changes/qwen-handoff-v0.1/`, `spec/v0.2-memory-integrity.md`, `docs/memory-integrity.md`.
+Relevant pointers: `.ai/INDEX.md`, `.ai/archive/changes/qwen-handoff-v0.1/`, `docs/roadmap.md`, `spec/v0.2-memory-integrity.md`.
