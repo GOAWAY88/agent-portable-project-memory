@@ -1,8 +1,8 @@
 ---
 id: KNOW-COMMANDS
 status: current
-updated: 2026-09-24
-verified_at_commit: 3c2a31f26754f164312e2deafa5e030a01d3c016
+updated: 2026-09-29
+verified_at_commit: 5431ff3d7d8a07802e391c6d9ca3d8723d05715e
 ---
 # Commands
 
@@ -15,3 +15,5 @@ verified_at_commit: 3c2a31f26754f164312e2deafa5e030a01d3c016
 | Shell syntax | `bash -n scripts/*.sh tests/*.sh` |
 | Handoff context | `./scripts/context.sh .` |
 | Checkpoint checklist | `./scripts/checkpoint.sh .` |
+| Init a project (default software profile) | `./scripts/init.sh /path/to/project` |
+| Init with a profile | `./scripts/init.sh --profile paper /path/to/project` |

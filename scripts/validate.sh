@@ -33,7 +33,25 @@ valid_knowledge_status() { case "$1" in current|draft|deprecated|superseded) ret
 valid_adr_status() { case "$1" in proposed|accepted|rejected|deprecated|superseded) return 0;; *) return 1;; esac; }
 
 for p in AGENTS.md .ai/NOW.md .ai/INDEX.md .ai/knowledge .ai/decisions .ai/changes .ai/archive; do need "$p"; done
-for p in PROJECT.md ARCHITECTURE.md COMMANDS.md; do need ".ai/knowledge/$p"; done
+
+# Required knowledge set: declared by .ai/profile.md when present (V0.3 profiles);
+# otherwise fall back to the frozen software defaults for backward compatibility.
+profile_file="$ROOT/.ai/profile.md"
+if [[ -f "$profile_file" ]]; then
+  profile_name=$(frontmatter_value "$profile_file" name)
+  [[ "$profile_name" =~ ^[a-z][a-z0-9-]*$ ]] || error "invalid profile name '$profile_name' in .ai/profile.md"
+  required_knowledge=$(frontmatter_value "$profile_file" required_knowledge)
+  if [[ -n "$required_knowledge" ]]; then
+    for k in $required_knowledge; do
+      [[ "$k" == *.md ]] || error "required_knowledge entry '$k' in .ai/profile.md is not a .md filename"
+      need ".ai/knowledge/$k"
+    done
+  else
+    error "missing front-matter 'required_knowledge' in .ai/profile.md"
+  fi
+else
+  for p in PROJECT.md ARCHITECTURE.md COMMANDS.md; do need ".ai/knowledge/$p"; done
+fi
 
 NOW="$ROOT/.ai/NOW.md"
 for label in Project Milestone "Active change" "Current task" Blockers "Next action" "Last verified state"; do

@@ -1,6 +1,6 @@
 # Agent-Portable Project Memory Framework
 
-**V0.2 · experimental (V0.1-alpha baseline frozen)**
+**V0.3 · experimental (V0.1-alpha baseline frozen)**
 
 Switching coding agents should not mean losing a project's history, intent, or operating knowledge. This repository defines a small, vendor-neutral protocol and template for keeping that memory in the repository where every agent can inspect it.
 
@@ -17,10 +17,11 @@ The repository owns project memory; an agent is a temporary worker. Memory is st
 - bootstrap and checkpoint protocols for handoff between agents
 - a portable project template and small Bash helpers
 - V0.2 integrity validation, negative tests, idempotence checks, and GitHub CI on Linux/macOS
+- V0.3 project profiles: `init.sh --profile software|paper` seeds domain-appropriate knowledge, and a declarative `.ai/profile.md` manifest drives required-knowledge validation
 
 V0.1 intentionally does **not** include a vector database, embeddings, MCP server, cloud service, automatic LLM summarizer, or agent-specific hook. Future retrieval layers must remain derived from the canonical files.
 
-V0.2 keeps that boundary: SQLite FTS5/BM25, MCP, semantic retrieval, and agent adapters remain deferred until canonical Markdown integrity is stable. The frozen compatibility contract is [`spec/baselines/v0.1-alpha.md`](spec/baselines/v0.1-alpha.md).
+V0.2 keeps that boundary: SQLite FTS5/BM25, MCP, semantic retrieval, and agent adapters remain deferred until canonical Markdown integrity is stable. The frozen compatibility contract is [`spec/baselines/v0.1-alpha.md`](spec/baselines/v0.1-alpha.md). V0.3 keeps the protocol domain-neutral while making the seeded knowledge set declarative ([`spec/v0.3-profiles.md`](spec/v0.3-profiles.md)).
 
 ## Architecture
 
@@ -39,10 +40,11 @@ Executable evidence and current source outrank summaries. Archives are never par
 ```bash
 git clone <this-repository-url> agent-portable-project-memory
 cd agent-portable-project-memory
-./scripts/init.sh /path/to/my-project
+./scripts/init.sh /path/to/my-project              # software profile (default)
+./scripts/init.sh --profile paper /path/to/my-paper  # research/paper profile
 ```
 
-The initializer refuses unsafe overwrites, preserves an existing `AGENTS.md`, and reports conflicts. In the target project, a new agent should read `AGENTS.md`, `.ai/NOW.md`, and `.ai/INDEX.md`, inspect Git state, then retrieve only the active change and relevant knowledge.
+The initializer refuses unsafe overwrites, preserves an existing `AGENTS.md`, and reports conflicts. It installs the chosen profile's knowledge seeds, INDEX router, and a `.ai/profile.md` manifest declaring the project's required knowledge set. In the target project, a new agent should read `AGENTS.md`, `.ai/NOW.md`, and `.ai/INDEX.md`, inspect Git state, then retrieve only the active change and relevant knowledge.
 
 Use `./scripts/context.sh [project]` for a concise reconstruction view, `./scripts/checkpoint.sh [project]` before handoff, and `./scripts/validate.sh [project]` for structural checks.
 

@@ -9,8 +9,9 @@ Read this router, not the whole tree.
 | Architecture | `.ai/knowledge/ARCHITECTURE.md` |
 | Commands and validation | `.ai/knowledge/COMMANDS.md` |
 | Durable decisions | `.ai/decisions/` |
-| Current implementation | No active change; see `.ai/NOW.md` |
+| Current implementation | `.ai/changes/profile-templates-v0.3/` |
 | Future directions | `docs/roadmap.md` |
+| Project profiles (V0.3) | `spec/v0.3-profiles.md`, `.ai/profile.md` |
 | Completed V0.2 change | `.ai/archive/changes/memory-integrity-v0.2/` |
 | Completed handoff fix | `.ai/archive/changes/qwen-handoff-v0.1/` |
 | Historical material | `.ai/archive/` (not default context) |

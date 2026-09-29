@@ -73,5 +73,60 @@ else
   cat "$OUT"; bad 'lifecycle fixture init failed'
 fi
 
+# V0.3 profiles: default software behavior, paper overlay, and manifest enforcement.
+[[ -f "$tmp/project/.ai/profile.md" ]] && ok 'default init installs profile manifest' || bad 'default init installs profile manifest'
+grep -q 'name: software' "$tmp/project/.ai/profile.md" 2>/dev/null && ok 'default profile is software' || bad 'default profile is software'
+[[ -f "$tmp/project/.ai/knowledge/ARCHITECTURE.md" ]] && ok 'software profile seeds ARCHITECTURE.md' || bad 'software profile seeds ARCHITECTURE.md'
+
+paper="$tmp/paper"
+mkdir "$paper"; git -C "$paper" init -q; git -C "$paper" config user.email test@example.invalid; git -C "$paper" config user.name test
+check 'init with paper profile succeeds' "$ROOT/scripts/init.sh" --profile paper "$paper"
+check 'paper project validates' "$ROOT/scripts/validate.sh" "$paper"
+for k in RESEARCH_QUESTIONS.md METHODS.md EXPERIMENTS.md; do
+  [[ -f "$paper/.ai/knowledge/$k" ]] && ok "paper profile seeds $k" || bad "paper profile seeds $k"
+done
+[[ ! -f "$paper/.ai/knowledge/ARCHITECTURE.md" ]] && ok 'paper profile omits software-only seeds' || bad 'paper profile omits software-only seeds'
+
+if "$ROOT/scripts/init.sh" --profile nosuch "$tmp/nosuch" >"$OUT" 2>&1; then
+  bad 'unknown profile is rejected'
+elif grep -q "unknown profile" "$OUT"; then
+  ok 'unknown profile is rejected'
+else
+  cat "$OUT"; bad 'unknown profile is rejected (wrong diagnostic)'
+fi
+
+rm "$paper/.ai/knowledge/METHODS.md"
+if "$ROOT/scripts/validate.sh" "$paper" >"$OUT" 2>&1; then
+  bad 'missing manifest-required knowledge is rejected'
+elif grep -q 'missing .ai/knowledge/METHODS.md' "$OUT"; then
+  ok 'missing manifest-required knowledge is rejected'
+else
+  cat "$OUT"; bad 'missing manifest-required knowledge is rejected (wrong diagnostic)'
+fi
+
+sed 's/name: paper/name: Bad Name/' "$paper/.ai/profile.md" > "$paper/profile.tmp" && mv "$paper/profile.tmp" "$paper/.ai/profile.md"
+if "$ROOT/scripts/validate.sh" "$paper" >"$OUT" 2>&1; then
+  bad 'malformed profile name is rejected'
+elif grep -q 'invalid profile name' "$OUT"; then
+  ok 'malformed profile name is rejected'
+else
+  cat "$OUT"; bad 'malformed profile name is rejected (wrong diagnostic)'
+fi
+
+# Backward compatibility: a project without .ai/profile.md falls back to software defaults.
+legacy="$tmp/legacy"
+mkdir "$legacy"; git -C "$legacy" init -q; git -C "$legacy" config user.email test@example.invalid; git -C "$legacy" config user.name test
+"$ROOT/scripts/init.sh" "$legacy" >"$OUT" 2>&1
+rm "$legacy/.ai/profile.md"
+check 'manifest-less project still validates via software fallback' "$ROOT/scripts/validate.sh" "$legacy"
+rm "$legacy/.ai/knowledge/COMMANDS.md"
+if "$ROOT/scripts/validate.sh" "$legacy" >"$OUT" 2>&1; then
+  bad 'fallback still enforces software defaults'
+elif grep -q 'missing .ai/knowledge/COMMANDS.md' "$OUT"; then
+  ok 'fallback still enforces software defaults'
+else
+  cat "$OUT"; bad 'fallback still enforces software defaults (wrong diagnostic)'
+fi
+
 (( fail == 0 )) && { echo 'all structure tests passed'; exit 0; }
 echo 'structure tests failed'; exit 1

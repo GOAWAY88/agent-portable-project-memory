@@ -2,8 +2,25 @@
 set -u
 
 SOURCE_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-TARGET=${1:-}
-if [[ -z "$TARGET" ]]; then echo "usage: $0 /path/to/git-project" >&2; exit 2; fi
+PROFILE=software
+TARGET=
+while (( $# )); do
+  case "$1" in
+    --profile)
+      PROFILE=${2:-}
+      if [[ -z "$PROFILE" ]]; then echo "usage: $0 [--profile <name>] /path/to/git-project" >&2; exit 2; fi
+      shift 2;;
+    --profile=*) PROFILE=${1#--profile=}; shift;;
+    -h|--help) echo "usage: $0 [--profile <name>] /path/to/git-project"; echo "profiles: $(cd "$SOURCE_ROOT/template/profiles" 2>/dev/null && ls -1 | tr '\n' ' ')"; exit 0;;
+    *) if [[ -n "$TARGET" ]]; then echo "init: unexpected extra argument: $1" >&2; exit 2; fi; TARGET=$1; shift;;
+  esac
+done
+if [[ -z "$TARGET" ]]; then echo "usage: $0 [--profile <name>] /path/to/git-project" >&2; exit 2; fi
+PROFILE_DIR="$SOURCE_ROOT/template/profiles/$PROFILE"
+if [[ ! -d "$PROFILE_DIR" ]]; then
+  echo "init: unknown profile '$PROFILE'; available: $(cd "$SOURCE_ROOT/template/profiles" 2>/dev/null && ls -1 | tr '\n' ' ')" >&2
+  exit 1
+fi
 if [[ ! -d "$TARGET" ]]; then echo "init: target directory does not exist: $TARGET" >&2; exit 1; fi
 TARGET=$(cd "$TARGET" && pwd)
 if ! git -C "$TARGET" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -47,6 +64,15 @@ while IFS= read -r -d '' src; do
   if [[ -d "$src" ]]; then mkdir -p "$dst"; continue; fi
   copy_if_missing "$src" "$dst"
 done < <(find "$SOURCE_ROOT/template/.ai" -type f -print0)
+
+# Profile overlay: knowledge seeds, INDEX router, and the declarative manifest.
+while IFS= read -r -d '' src; do
+  rel=${src#"$PROFILE_DIR/"}; dst="$TARGET/.ai/$rel"
+  copy_if_missing "$src" "$dst"
+done < <(find "$PROFILE_DIR/knowledge" -type f -print0 2>/dev/null)
+copy_if_missing "$PROFILE_DIR/INDEX.md" "$TARGET/.ai/INDEX.md"
+copy_if_missing "$PROFILE_DIR/profile.md" "$TARGET/.ai/profile.md"
+echo "init: profile '$PROFILE' applied"
 
 echo "init: created $created item(s); conflicts $conflicts"
 if (( conflicts )); then echo "init: no existing files were overwritten; review conflicts before committing."; fi
