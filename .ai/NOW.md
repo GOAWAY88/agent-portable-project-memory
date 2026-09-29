@@ -2,16 +2,16 @@
 updated: 2026-09-29
 branch: experiment/qwen-handoff
 baseline_commit: 3c2a31f26754f164312e2deafa5e030a01d3c016
-verified_at_commit: 5431ff3d7d8a07802e391c6d9ca3d8723d05715e
+verified_at_commit: cd220ebdcfcdda469580b0638fb0e3c47c32be1e
 ---
 # Now
 
 Project: **Agent-Portable Project Memory Framework**
-Milestone: **V0.3 project profiles in progress**
-Active change: **profile-templates-v0.3**
-Current task: **Implement init-time project profiles (software default, paper overlay) with a declarative `.ai/profile.md` manifest driving `validate.sh` required-knowledge checks.**
+Milestone: **V0.3 Project Profiles complete; pending merge to `main`**
+Active change: **none**
+Current task: **Merge `experiment/qwen-handoff` into `main` so the V0.3 profiles and the earlier CI archival fix land on the default branch.**
 Blockers: **none known**
-Next action: **Restructure `template/` into shared core + `profiles/software|paper`, extend `init.sh --profile`, make `validate.sh` manifest-driven with software fallback, add tests and `spec/v0.3-profiles.md`, run the full suite, then merge to `main` after CI is green.**
-Last verified state: **V0.1-alpha baseline is commit `3c2a31f26754f164312e2deafa5e030a01d3c016`; GitHub CI runs 36513243993, 36515061871, and 36515289887 passed on ubuntu-latest and macos-latest through commit `5431ff3d7d8a07802e391c6d9ca3d8723d05715e`.**
+Next action: **Fast-forward merge `experiment/qwen-handoff` into `main`, push, and confirm GitHub CI is green on `main`.**
+Last verified state: **V0.1-alpha baseline is commit `3c2a31f26754f164312e2deafa5e030a01d3c016`; GitHub CI run 36528492163 passed on ubuntu-latest and macos-latest for commit `cd220ebdcfcdda469580b0638fb0e3c47c32be1e` (V0.3 profiles); runs 36513243993, 36515061871, and 36515289887 passed for the earlier handoff fixes.**
 
-Relevant pointers: `.ai/INDEX.md`, `.ai/changes/profile-templates-v0.3/`, `docs/roadmap.md`, `spec/baselines/v0.1-alpha.md`.
+Relevant pointers: `.ai/INDEX.md`, `.ai/archive/changes/profile-templates-v0.3/`, `spec/v0.3-profiles.md`, `docs/roadmap.md`.

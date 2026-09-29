@@ -8,4 +8,4 @@
 - [x] `DONE` Add `spec/v0.3-profiles.md` and update `docs/roadmap.md` and README
 - [x] `DONE` Extend structure tests: default profile, paper profile, invalid profile, missing required knowledge
 - [x] `DONE` Run full validation suite locally and record evidence
-- [ ] `TODO` Push, confirm GitHub CI green, then archive after merge review
+- [x] `DONE` Push, confirm GitHub CI green (run 36528492163), and archive this change
