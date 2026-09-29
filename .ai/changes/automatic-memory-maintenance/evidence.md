@@ -1,0 +1,7 @@
+# Evidence: automatic-memory-maintenance
+
+| Date | Branch/SHA | Command or observation | Result |
+|---|---|---|---|
+| 2026-09-29 | main / 1d78fbf6d39609bf9b62e1f74cfdf8bd86c59524 + working tree | Inspected `AGENTS.md`, `template/AGENTS.md`, `scripts/init.sh`, `spec/v0.3-profiles.md`, the paper profile, and structure tests | Confirmed `init.sh` copies `template/AGENTS.md` into new projects, so the portable template is the correct enforcement point; root instructions must also dogfood the rule |
+| 2026-09-29 | main / 1d78fbf + working tree | Added the policy to both instruction files and generated-project assertions to `tests/test_v01_structure.sh` | Non-trivial behavioral work now requires active-change maintenance, knowledge/ADR promotion, a current `NOW.md`, validation, and final disclosure; trivial behavior-neutral edits and unverified conversational material are explicitly excluded |
+| 2026-09-29 | main / 1d78fbf + working tree | `git diff --check`; `bash -n scripts/*.sh tests/*.sh`; `./scripts/validate.sh .`; `./tests/test_v01_baseline.sh`; `./tests/test_v01_structure.sh`; `./tests/test_memory_integrity.sh` | All passed: whitespace and shell syntax clean, validator OK, V0.1-alpha baseline passed, all structure tests including the two new AGENTS assertions passed, and all memory-integrity negatives passed |

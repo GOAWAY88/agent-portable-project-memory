@@ -1,5 +1,7 @@
 # Project memory entry point
 
-This repository uses APMF V0.1 project memory. Read `.ai/NOW.md` and `.ai/INDEX.md`, inspect Git status/branch/recent commits, then retrieve only the active change and relevant knowledge. Do not recursively read `.ai/archive/`.
+This repository uses APMF project memory. Read `.ai/NOW.md` and `.ai/INDEX.md`, inspect Git status/branch/recent commits, then retrieve only the active change and relevant knowledge. Do not recursively read `.ai/archive/`.
 
-Before substantial edits, verify high-impact claims against source and tests. Before handoff, update the active change, evidence, and `NOW.md`; run the project's validation. Never store secrets in memory.
+Project-memory maintenance is part of every non-trivial task that changes code, configuration, interfaces, architecture, tests, or documented behavior; the user does not need to request it separately. Before substantive edits, create or reuse one suitable directory under `.ai/changes/`. Keep its `proposal.md`, `design.md`, `tasks.md`, and `evidence.md` synchronized with the implementation. Promote durable facts to `.ai/knowledge/`, durable decisions to individual ADRs, and update `.ai/NOW.md` before handoff. In the final response, name the memory files changed.
+
+Small, behavior-neutral edits do not require a new active change. Do not record ordinary conversation, speculation, secrets, or unverified claims as durable memory; mark uncertainty explicitly. Verify high-impact claims against source and tests, and run the project's validation before handoff.

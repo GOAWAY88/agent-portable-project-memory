@@ -9,6 +9,8 @@ Before substantial work:
 3. Read only the relevant specification, docs, and active change files.
 4. Verify important assumptions against scripts, tests, and executable reality.
 
-Do not recursively load `.ai/archive/` or treat summaries as higher authority than source and evidence. Keep changes scoped, update the active change and evidence as work progresses, and never put secrets in project memory.
+Project-memory maintenance is part of every non-trivial task that changes code, configuration, interfaces, architecture, tests, or documented behavior; the user does not need to request it separately. Before substantive edits, create or reuse one suitable active change. Keep its proposal, design, tasks, and evidence synchronized with the implementation; promote durable facts to `.ai/knowledge/` and durable decisions to individual ADRs; update `.ai/NOW.md` before handoff. In the final response, name the memory files changed.
+
+Small, behavior-neutral edits do not require a new active change. Do not record ordinary conversation, speculation, secrets, or claims that have not been verified; mark uncertain claims explicitly instead. Do not recursively load `.ai/archive/` or treat summaries as higher authority than source and evidence.
 
 Before handoff, run `bash -n scripts/*.sh tests/*.sh`, `./scripts/validate.sh .`, `./tests/test_v01_baseline.sh`, `./tests/test_v01_structure.sh`, and `./tests/test_memory_integrity.sh`; update `.ai/NOW.md`, tasks, and evidence, and record durable decisions as individual ADRs.

@@ -21,6 +21,12 @@ check 'root validates' "$ROOT/scripts/validate.sh" "$ROOT"
 mkdir "$tmp/project"; git -C "$tmp/project" init -q; git -C "$tmp/project" config user.email test@example.invalid; git -C "$tmp/project" config user.name test
 check 'init creates project memory' "$ROOT/scripts/init.sh" "$tmp/project"
 check 'generated project validates' "$ROOT/scripts/validate.sh" "$tmp/project"
+grep -q 'user does not need to request it separately' "$tmp/project/AGENTS.md" \
+  && ok 'generated AGENTS makes memory maintenance automatic for non-trivial tasks' \
+  || bad 'generated AGENTS makes memory maintenance automatic for non-trivial tasks'
+grep -q 'Small, behavior-neutral edits do not require a new active change' "$tmp/project/AGENTS.md" \
+  && ok 'generated AGENTS exempts trivial edits from change overhead' \
+  || bad 'generated AGENTS exempts trivial edits from change overhead'
 
 agents_before=$(digest "$tmp/project/AGENTS.md")
 ignore_before=$(digest "$tmp/project/.gitignore")
