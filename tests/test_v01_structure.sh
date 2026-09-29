@@ -27,7 +27,7 @@ ignore_before=$(digest "$tmp/project/.gitignore")
 check 'repeated init is safe' "$ROOT/scripts/init.sh" "$tmp/project"
 [[ "$agents_before" == "$(digest "$tmp/project/AGENTS.md")" ]] && ok 'idempotent init preserves AGENTS.md' || bad 'idempotent init preserves AGENTS.md'
 [[ "$ignore_before" == "$(digest "$tmp/project/.gitignore")" ]] && ok 'idempotent init preserves .gitignore' || bad 'idempotent init preserves .gitignore'
-[[ $(grep -cF '# APPM derived/local memory infrastructure' "$tmp/project/.gitignore") -eq 1 ]] && ok 'idempotent init does not duplicate ignore block' || bad 'idempotent init does not duplicate ignore block'
+[[ $(grep -cF '# APMF derived/local memory infrastructure' "$tmp/project/.gitignore") -eq 1 ]] && ok 'idempotent init does not duplicate ignore block' || bad 'idempotent init does not duplicate ignore block'
 
 mkdir "$tmp/existing"; git -C "$tmp/existing" init -q; git -C "$tmp/existing" config user.email test@example.invalid; git -C "$tmp/existing" config user.name test
 printf '# keep me\n' > "$tmp/existing/AGENTS.md"
@@ -35,7 +35,20 @@ printf '# project rules\n*.local\n' > "$tmp/existing/.gitignore"
 check 'init reports existing-file conflicts' "$ROOT/scripts/init.sh" "$tmp/existing"
 grep -q 'keep me' "$tmp/existing/AGENTS.md" && ok 'existing AGENTS.md preserved' || bad 'existing AGENTS.md preserved'
 grep -q '\*\.local' "$tmp/existing/.gitignore" && ok 'existing .gitignore rules preserved' || bad 'existing .gitignore rules preserved'
-[[ $(grep -cF '# APPM derived/local memory infrastructure' "$tmp/existing/.gitignore") -eq 1 ]] && ok 'existing .gitignore gets one APPM block' || bad 'existing .gitignore gets one APPM block'
+[[ $(grep -cF '# APMF derived/local memory infrastructure' "$tmp/existing/.gitignore") -eq 1 ]] && ok 'existing .gitignore gets one APMF block' || bad 'existing .gitignore gets one APMF block'
+
+# Legacy compatibility: a project initialized before the APPM->APMF rename carries the old
+# marker. Re-running init must recognize it and must not append a second block.
+legacyignore="$tmp/legacy-ignore"
+mkdir "$legacyignore"; git -C "$legacyignore" init -q; git -C "$legacyignore" config user.email test@example.invalid; git -C "$legacyignore" config user.name test
+"$ROOT/scripts/init.sh" "$legacyignore" >"$OUT" 2>&1
+sed 's/^# APMF derived\/local memory infrastructure$/# APPM derived\/local memory infrastructure/' "$legacyignore/.gitignore" > "$legacyignore/gitignore.tmp" \
+  && mv "$legacyignore/gitignore.tmp" "$legacyignore/.gitignore"
+grep -qF '# APPM derived/local memory infrastructure' "$legacyignore/.gitignore" && ok 'legacy marker fixture prepared' || bad 'legacy marker fixture prepared'
+legacy_before=$(digest "$legacyignore/.gitignore")
+check 're-init on a legacy-marker project is safe' "$ROOT/scripts/init.sh" "$legacyignore"
+[[ "$legacy_before" == "$(digest "$legacyignore/.gitignore")" ]] && ok 'legacy marker is not rewritten' || bad 'legacy marker is not rewritten'
+[[ $(grep -cF 'derived/local memory infrastructure' "$legacyignore/.gitignore") -eq 1 ]] && ok 'legacy marker does not gain a duplicate block' || bad 'legacy marker does not gain a duplicate block'
 
 mkdir -p "$tmp/project/.ai/runtime"; touch "$tmp/project/.ai/runtime/cache.db"
 git -C "$tmp/project" add .; git -C "$tmp/project" commit -qm init

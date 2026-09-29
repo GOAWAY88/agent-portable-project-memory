@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# APPM V0.2 canonical-memory integrity checks. No YAML/Markdown parser required.
+# APMF V0.2 canonical-memory integrity checks. No YAML/Markdown parser required.
 set -u
 
 ROOT=${1:-.}

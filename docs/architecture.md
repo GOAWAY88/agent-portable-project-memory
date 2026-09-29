@@ -1,6 +1,6 @@
 # Architecture
 
-APPM separates durable repository memory from an agent's temporary context. The layers are intentionally asymmetric: storage may grow, but default startup remains small.
+APMF separates durable repository memory from an agent's temporary context. The layers are intentionally asymmetric: storage may grow, but default startup remains small.
 
 | Layer | Canonical locations | Startup behavior |
 |---|---|---|

@@ -8,8 +8,9 @@ Read this router, not the whole tree.
 | Project purpose | `.ai/knowledge/PROJECT.md` |
 | Architecture | `.ai/knowledge/ARCHITECTURE.md` |
 | Commands and validation | `.ai/knowledge/COMMANDS.md` |
-| Durable decisions | `.ai/decisions/` |
-| Current implementation | No active change; see `.ai/NOW.md` |
+| Durable decisions | `.ai/decisions/` (see `ADR-0001-apmf-abbreviation.md`) |
+| Project narrative and audience | `ABOUT.md` |
+| Current implementation | `.ai/changes/apmf-rename-and-about/` |
 | Future directions | `docs/roadmap.md` |
 | Project profiles (V0.3) | `spec/v0.3-profiles.md`, `.ai/profile.md` |
 | Completed V0.2 change | `.ai/archive/changes/memory-integrity-v0.2/` |

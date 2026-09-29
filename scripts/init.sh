@@ -92,26 +92,30 @@ if (( overlay_conflicts )); then
   exit 1
 fi
 
-ignore_block='# APPM derived/local memory infrastructure
+ignore_marker='# APMF derived/local memory infrastructure'
+# Projects initialized before the APPM->APMF rename carry the legacy marker. Detect both so
+# re-running init never appends a duplicate block; only the new marker is ever written.
+legacy_ignore_marker='# APPM derived/local memory infrastructure'
+ignore_block="$ignore_marker
 .ai/.cache/
 .ai/runtime/
 .ai/index/*.db
 .ai/index/*.db-*
 .ai/index/*.sqlite
 .ai/index/*.sqlite3
-.ai/local/'
+.ai/local/"
 if [[ ! -f "$TARGET/.gitignore" ]]; then
   printf '%s\n' "$ignore_block" > "$TARGET/.gitignore"
-  echo "CREATED: .gitignore (APPM runtime rules)"; created=$((created+1))
-elif ! grep -qF '# APPM derived/local memory infrastructure' "$TARGET/.gitignore"; then
+  echo "CREATED: .gitignore (APMF runtime rules)"; created=$((created+1))
+elif ! grep -qF "$ignore_marker" "$TARGET/.gitignore" && ! grep -qF "$legacy_ignore_marker" "$TARGET/.gitignore"; then
   printf '\n%s\n' "$ignore_block" >> "$TARGET/.gitignore"
-  echo "UPDATED: .gitignore (appended APPM runtime rules)"; created=$((created+1))
+  echo "UPDATED: .gitignore (appended APMF runtime rules)"; created=$((created+1))
 else
-  echo "OK: .gitignore already contains APPM runtime rules"
+  echo "OK: .gitignore already contains APMF runtime rules"
 fi
 
 if [[ -e "$TARGET/AGENTS.md" ]]; then
-  echo "CONFLICT (preserved): AGENTS.md exists; manually merge the APPM entry protocol from template/AGENTS.md"; conflicts=$((conflicts+1))
+  echo "CONFLICT (preserved): AGENTS.md exists; manually merge the APMF entry protocol from template/AGENTS.md"; conflicts=$((conflicts+1))
 else
   cp "$SOURCE_ROOT/template/AGENTS.md" "$TARGET/AGENTS.md"; echo "CREATED: AGENTS.md"; created=$((created+1))
 fi

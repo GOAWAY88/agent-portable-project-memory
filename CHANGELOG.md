@@ -22,3 +22,5 @@
 - preserved the empty canonical `.ai/changes/` directory after active changes are archived
 - hardened profile integrity: `init.sh` rejects invalid profile names and incomplete profile directories, checks every copy, applies the overlay all-or-nothing with conflict preflight, and never reports a profile as applied when it was not
 - hardened `validate.sh` to reject `required_knowledge` entries that are not plain `.md` filenames, blocking `../` traversal, absolute paths, and nested paths
+- renamed the project abbreviation from APPM to **APMF** across specs, docs, templates, scripts, and tests; `init.sh` still recognizes the legacy `.gitignore` marker so already-initialized projects stay idempotent (see `ADR-0001-apmf-abbreviation`)
+- added `ABOUT.md`, emoji section headings in the README, and the first recorded ADR
