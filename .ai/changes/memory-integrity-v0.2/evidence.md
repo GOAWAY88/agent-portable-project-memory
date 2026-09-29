@@ -9,3 +9,4 @@
 | 2026-09-24 | main / working tree | `./tests/test_v01_structure.sh` | Passed: initialization, idempotence, conflict preservation, generated validation, and ignore behavior |
 | 2026-09-24 | main / working tree | `./tests/test_memory_integrity.sh` | Passed: broken links, invalid statuses, unresolvable commits, missing evidence, completed changes, missing NOW fields, and ADR failures |
 | 2026-09-24 | main / working tree | `.github/workflows/ci.yml` | Added PR/push matrix for Ubuntu and macOS system Bash |
+| 2026-09-29 | main / a2f1d730378f41d646c865be67ac9cb011654dc9 + working tree | GitHub run showed `validate.sh` could not resolve the V0.1 baseline in shallow checkout | Added `fetch-depth: 0` to `actions/checkout`; all local validation suites passed |

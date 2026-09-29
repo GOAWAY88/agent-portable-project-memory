@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          # validate.sh verifies historical verified_at_commit values.
+          fetch-depth: 0
       - name: Show shell versions
         run: bash --version | head -1
       - name: Check shell syntax
