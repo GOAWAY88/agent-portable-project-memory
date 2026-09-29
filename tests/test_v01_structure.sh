@@ -12,7 +12,7 @@ tmp=$(mktemp -d)
 trap 'rm -rf "$tmp" "$OUT"' EXIT
 
 for p in AGENTS.md .ai/NOW.md .ai/INDEX.md .ai/knowledge/PROJECT.md .ai/decisions/README.md \
-  .ai/changes/memory-integrity-v0.2/proposal.md template/AGENTS.md template/.ai/NOW.md \
+  .ai/archive/changes/memory-integrity-v0.2/proposal.md template/AGENTS.md template/.ai/NOW.md \
   template/.ai/changes/_template/evidence.md scripts/init.sh scripts/context.sh scripts/checkpoint.sh scripts/validate.sh; do
   [[ -e "$ROOT/$p" ]] && ok "required file $p" || bad "required file $p"
 done

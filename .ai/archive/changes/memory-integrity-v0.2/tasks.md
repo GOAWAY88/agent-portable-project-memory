@@ -4,4 +4,4 @@
 - [x] `DONE` Add negative and idempotence tests
 - [x] `DONE` Add CI and V0.1-alpha compatibility baseline
 - [x] `DONE` Update specification, documentation, and evidence
-- [ ] `IN_PROGRESS` Run final V0.2 validation in GitHub CI and archive after review
+- [x] `DONE` Run final V0.2 validation in GitHub CI and archive after review

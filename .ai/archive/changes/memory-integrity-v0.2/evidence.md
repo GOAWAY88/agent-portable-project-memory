@@ -10,3 +10,4 @@
 | 2026-09-24 | main / working tree | `./tests/test_memory_integrity.sh` | Passed: broken links, invalid statuses, unresolvable commits, missing evidence, completed changes, missing NOW fields, and ADR failures |
 | 2026-09-24 | main / working tree | `.github/workflows/ci.yml` | Added PR/push matrix for Ubuntu and macOS system Bash |
 | 2026-09-29 | main / a2f1d730378f41d646c865be67ac9cb011654dc9 + working tree | GitHub run showed `validate.sh` could not resolve the V0.1 baseline in shallow checkout | Added `fetch-depth: 0` to `actions/checkout`; all local validation suites passed |
+| 2026-09-29 | main / df9b2d20718e624ad1a0b20ee9e7ca7836d2e025 | [GitHub Actions run](https://github.com/GOAWAY88/agent-portable-project-memory/actions/runs/36504999390) for push `df9b2d2` | Passed on `ubuntu-latest` and `macos-latest`; syntax, validator, baseline, structure, integrity, and whitespace checks all succeeded |
