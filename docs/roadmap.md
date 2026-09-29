@@ -1,8 +1,12 @@
 # Roadmap
 
-## V0.1 (this repository)
+## V0.1 (frozen alpha baseline)
 
-Portable Markdown, layered routing, active changes, provenance, authority/staleness rules, archives, and minimal POSIX-friendly helpers.
+Portable Markdown, layered routing, active changes, provenance, authority/staleness rules, archives, and minimal POSIX-friendly helpers. The compatibility contract is frozen in `spec/baselines/v0.1-alpha.md`.
+
+## V0.2 (Memory Integrity)
+
+Structural and provenance validation, negative tests, idempotence checks, and GitHub CI. Completed changes must leave the active area; broken routes and unresolvable evidence commits fail early.
 
 ## Possible later versions
 

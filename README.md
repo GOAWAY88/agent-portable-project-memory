@@ -1,6 +1,6 @@
 # Agent-Portable Project Memory Framework
 
-**V0.1 · experimental**
+**V0.2 · experimental (V0.1-alpha baseline frozen)**
 
 Switching coding agents should not mean losing a project's history, intent, or operating knowledge. This repository defines a small, vendor-neutral protocol and template for keeping that memory in the repository where every agent can inspect it.
 
@@ -16,8 +16,11 @@ The repository owns project memory; an agent is a temporary worker. Memory is st
 - active-change artifacts: proposal, design, tasks, and evidence
 - bootstrap and checkpoint protocols for handoff between agents
 - a portable project template and small Bash helpers
+- V0.2 integrity validation, negative tests, idempotence checks, and GitHub CI on Linux/macOS
 
 V0.1 intentionally does **not** include a vector database, embeddings, MCP server, cloud service, automatic LLM summarizer, or agent-specific hook. Future retrieval layers must remain derived from the canonical files.
+
+V0.2 keeps that boundary: SQLite FTS5/BM25, MCP, semantic retrieval, and agent adapters remain deferred until canonical Markdown integrity is stable. The frozen compatibility contract is [`spec/baselines/v0.1-alpha.md`](spec/baselines/v0.1-alpha.md).
 
 ## Architecture
 

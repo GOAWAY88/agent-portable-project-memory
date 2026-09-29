@@ -1,0 +1,35 @@
+name: APPM CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  shell-and-integrity:
+    name: ${{ matrix.os }} / Bash ${{ matrix.bash }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            bash: system
+          - os: macos-latest
+            bash: system
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Show shell versions
+        run: bash --version | head -1
+      - name: Check shell syntax
+        run: bash -n scripts/*.sh tests/*.sh
+      - name: Validate framework memory
+        run: ./scripts/validate.sh .
+      - name: Run V0.1-alpha baseline test
+        run: ./tests/test_v01_baseline.sh
+      - name: Run V0.1 structure test
+        run: ./tests/test_v01_structure.sh
+      - name: Run V0.2 integrity tests
+        run: ./tests/test_memory_integrity.sh
+      - name: Check whitespace
+        run: git diff --check
