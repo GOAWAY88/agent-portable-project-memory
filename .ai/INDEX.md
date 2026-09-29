@@ -9,7 +9,7 @@ Read this router, not the whole tree.
 | Architecture | `.ai/knowledge/ARCHITECTURE.md` |
 | Commands and validation | `.ai/knowledge/COMMANDS.md` |
 | Durable decisions | `.ai/decisions/` |
-| Current implementation | No active change; see `.ai/NOW.md` |
+| Current implementation | `.ai/changes/qwen-handoff-v0.1/` |
 | Completed V0.2 change | `.ai/archive/changes/memory-integrity-v0.2/` |
 | Historical material | `.ai/archive/` (not default context) |
 

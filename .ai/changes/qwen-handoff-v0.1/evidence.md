@@ -1,0 +1,10 @@
+# Evidence: qwen-handoff-v0.1
+
+| Date | Branch/SHA | Command or observation | Result |
+|---|---|---|---|
+| 2026-09-29 | experiment/qwen-handoff / 002c9d661e3f9095d7fc10fe4f6670fe9dd94ee7 | GitHub Actions run 36509132904 for push `002c9d6` on `main` | Failed on ubuntu-latest and macos-latest at step "Validate framework memory"; later steps skipped |
+| 2026-09-29 | experiment/qwen-handoff / 002c9d66 (worktree) | `./scripts/validate.sh .` | Failed with `ERROR: missing .ai/changes`, confirming the CI root cause locally |
+| 2026-09-29 | experiment/qwen-handoff / 002c9d66 | `git ls-files -- .ai/changes` and `find .ai -maxdepth 2` | Empty output: no tracked file keeps `.ai/changes/` alive after the archival commit |
+| 2026-09-29 | experiment/qwen-handoff / 002c9d66 + working tree | Created active change `qwen-handoff-v0.1` (proposal/design/tasks/evidence), updated `.ai/NOW.md` and `.ai/INDEX.md`, then ran `./scripts/validate.sh .` | Passed: validator accepts the new active change and its four artifacts |
+| 2026-09-29 | experiment/qwen-handoff / 002c9d66 + working tree | Added `.ai/changes/README.md` placeholder and regression check in `tests/test_v01_structure.sh`; ran the check before staging | `not ok - .ai/changes has tracked placeholder content`: regression check correctly detects untracked placeholder |
+| 2026-09-29 | experiment/qwen-handoff / 002c9d66 + staged tree | `bash -n scripts/*.sh tests/*.sh`, `./scripts/validate.sh .`, `./tests/test_v01_baseline.sh`, `./tests/test_v01_structure.sh`, `./tests/test_memory_integrity.sh` | All passed after `git add`: syntax OK, validate OK, baseline passed, structure passed (including new regression check), integrity passed |

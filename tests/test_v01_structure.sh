@@ -41,5 +41,13 @@ mkdir -p "$tmp/project/.ai/runtime"; touch "$tmp/project/.ai/runtime/cache.db"
 git -C "$tmp/project" add .; git -C "$tmp/project" commit -qm init
 git -C "$tmp/project" check-ignore -q .ai/runtime/cache.db && ok 'runtime files ignored' || bad 'runtime files ignored'
 
+# Regression: archival of the last change must not leave .ai/changes/ untracked and empty,
+# because Git drops empty directories and validate.sh requires the path to exist.
+if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  [[ -n "$(git -C "$ROOT" ls-files -- .ai/changes/)" ]] \
+    && ok '.ai/changes has tracked placeholder content' \
+    || bad '.ai/changes has tracked placeholder content'
+fi
+
 (( fail == 0 )) && { echo 'all structure tests passed'; exit 0; }
 echo 'structure tests failed'; exit 1
