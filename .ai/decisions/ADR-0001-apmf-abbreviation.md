@@ -6,7 +6,7 @@ updated: 2026-09-29
 verified_at_commit: 85380f55d8265480aa74f037bb224915de0b8807
 supersedes: null
 superseded_by: null
-evidence: .ai/changes/apmf-rename-and-about/evidence.md
+evidence: .ai/archive/changes/apmf-rename-and-about/evidence.md
 ---
 # ADR-0001-apmf-abbreviation: Use APMF as the canonical project abbreviation
 
@@ -59,7 +59,7 @@ The repository name, directory name, and Git remote are **not** renamed; those a
 
 ## Evidence and provenance
 
-- Enumeration of every `APPM` occurrence before the change, and confirmation that the frozen baseline contains none: `.ai/changes/apmf-rename-and-about/evidence.md` (moves to `.ai/archive/changes/` when that change is archived).
+- Enumeration of every `APPM` occurrence before the change, and confirmation that the frozen baseline contains none: `.ai/archive/changes/apmf-rename-and-about/evidence.md`.
 - Post-change residual audit (`grep -rn "APPM"` outside `.ai/archive/`) shows hits only in the intentional legacy-marker compatibility path, its test, and the change/NOW records describing the rename.
 - Legacy-marker compatibility verified by `tests/test_v01_structure.sh` checks: `legacy marker fixture prepared`, `re-init on a legacy-marker project is safe`, `legacy marker is not rewritten`, `legacy marker does not gain a duplicate block`.
 - Frozen README phrases verified by `./tests/test_v01_baseline.sh` after the README redesign.

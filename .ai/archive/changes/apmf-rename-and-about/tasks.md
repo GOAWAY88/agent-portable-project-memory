@@ -12,4 +12,4 @@ status, so the old and new abbreviations are written without backticks here.
 - [x] `DONE` Update CHANGELOG.md and .ai/NOW.md
 - [x] `DONE` Run the full suite plus a residual abbreviation audit and record evidence
 - [x] `DONE` Push `docs/apmf-rename-and-about` and confirm GitHub CI green (run 36542111945)
-- [ ] `TODO` Fast-forward merge to `main`, confirm CI there, then archive this change
+- [x] `DONE` Fast-forward merge to `main` (`85380f5..51baec2`), confirm CI green there, and archive this change
