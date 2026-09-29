@@ -128,5 +128,106 @@ else
   cat "$OUT"; bad 'fallback still enforces software defaults (wrong diagnostic)'
 fi
 
+# --- V0.3 profile integrity: illegal names, traversal manifests, overlay conflicts ---
+
+new_repo() {
+  local repo=$1
+  mkdir -p "$repo"; git -C "$repo" init -q
+  git -C "$repo" config user.email test@example.invalid; git -C "$repo" config user.name test
+}
+expect_init_fail() {
+  local label=$1 pattern=$2; shift 2
+  if "$@" >"$OUT" 2>&1; then
+    bad "$label (unexpected success)"
+  elif [[ -n "$pattern" ]] && ! grep -q "$pattern" "$OUT"; then
+    cat "$OUT"; bad "$label (wrong diagnostic)"
+  else
+    ok "$label"
+  fi
+}
+expect_validate_fail() {
+  local label=$1 pattern=$2 repo=$3
+  if "$ROOT/scripts/validate.sh" "$repo" >"$OUT" 2>&1; then
+    bad "$label (unexpected success)"
+  elif grep -q "$pattern" "$OUT"; then
+    ok "$label"
+  else
+    cat "$OUT"; bad "$label (wrong diagnostic)"
+  fi
+}
+
+# Tests 1-3: illegal profile names must be rejected before any file is written.
+for bad_name in '..' 'paper/..' 'BadName'; do
+  badrepo="$tmp/badname-$(echo "$bad_name" | tr '/.' '__')"
+  new_repo "$badrepo"
+  expect_init_fail "init rejects profile '$bad_name'" 'invalid profile name' \
+    "$ROOT/scripts/init.sh" --profile "$bad_name" "$badrepo"
+  [[ ! -e "$badrepo/.ai/profile.md" ]] && ok "profile '$bad_name' wrote no manifest" || bad "profile '$bad_name' wrote no manifest"
+done
+
+# Tests 4-6: an incomplete profile directory must be rejected. Mutate a temporary copy of
+# the framework tree so the real repository is never modified.
+fwcopy="$tmp/framework-copy"
+mkdir -p "$fwcopy"
+cp -R "$ROOT/scripts" "$ROOT/template" "$fwcopy/"
+for missing in profile.md INDEX.md knowledge; do
+  brokenfw="$tmp/broken-$missing"
+  rm -rf "$brokenfw"; cp -R "$fwcopy" "$brokenfw"
+  rm -rf "$brokenfw/template/profiles/software/$missing"
+  brokenrepo="$tmp/brokenrepo-$missing"
+  new_repo "$brokenrepo"
+  expect_init_fail "init rejects profile missing $missing" 'is incomplete' \
+    "$brokenfw/scripts/init.sh" --profile software "$brokenrepo"
+  [[ ! -e "$brokenrepo/.ai/profile.md" ]] && ok "incomplete profile ($missing) wrote no manifest" || bad "incomplete profile ($missing) wrote no manifest"
+done
+
+# Tests 7-9: required_knowledge must be a plain .md filename, never a path.
+traversal="$tmp/traversal"
+new_repo "$traversal"
+"$ROOT/scripts/init.sh" "$traversal" >"$OUT" 2>&1
+for entry in '../../AGENTS.md' 'foo/bar.md' 'file.txt'; do
+  printf '%s\n' '---' 'name: software' "required_knowledge: $entry" '---' > "$traversal/.ai/profile.md"
+  expect_validate_fail "required_knowledge '$entry' is rejected" 'not a plain .md filename' "$traversal"
+done
+
+# Tests 10-11: an existing differing profile.md or INDEX.md must conflict, not be overwritten.
+conflict="$tmp/conflict"
+new_repo "$conflict"
+"$ROOT/scripts/init.sh" "$conflict" >"$OUT" 2>&1
+before_manifest=$(digest "$conflict/.ai/profile.md")
+before_index=$(digest "$conflict/.ai/INDEX.md")
+before_knowledge=$(ls -1 "$conflict/.ai/knowledge" | tr '\n' ' ')
+expect_init_fail 'differing .ai/profile.md is reported as a profile conflict' 'PROFILE CONFLICT' \
+  "$ROOT/scripts/init.sh" --profile paper "$conflict"
+[[ "$before_manifest" == "$(digest "$conflict/.ai/profile.md")" ]] && ok 'conflicting init preserves existing profile.md' || bad 'conflicting init preserves existing profile.md'
+[[ "$before_index" == "$(digest "$conflict/.ai/INDEX.md")" ]] && ok 'conflicting init preserves existing INDEX.md' || bad 'conflicting init preserves existing INDEX.md'
+[[ "$before_knowledge" == "$(ls -1 "$conflict/.ai/knowledge" | tr '\n' ' ')" ]] && ok 'conflicting init writes no partial overlay' || bad 'conflicting init writes no partial overlay'
+grep -q 'name: software' "$conflict/.ai/profile.md" && ok 'no mixed profile state after conflict' || bad 'no mixed profile state after conflict'
+
+# A differing INDEX.md alone (manifest removed so only the router conflicts) must also stop.
+indexonly="$tmp/indexonly"
+new_repo "$indexonly"
+"$ROOT/scripts/init.sh" --profile paper "$indexonly" >"$OUT" 2>&1
+printf '%s\n' '# hand-edited router' > "$indexonly/.ai/INDEX.md"
+expect_init_fail 'differing .ai/INDEX.md is reported as a profile conflict' 'PROFILE CONFLICT' \
+  "$ROOT/scripts/init.sh" --profile paper "$indexonly"
+grep -q 'hand-edited router' "$indexonly/.ai/INDEX.md" && ok 'hand-edited INDEX.md is not overwritten' || bad 'hand-edited INDEX.md is not overwritten'
+
+# Test 12: re-applying the same profile is idempotent and succeeds.
+idem="$tmp/idempotent"
+new_repo "$idem"
+"$ROOT/scripts/init.sh" --profile paper "$idem" >"$OUT" 2>&1
+git -C "$idem" add -A; git -C "$idem" commit -qm init
+if "$ROOT/scripts/init.sh" --profile paper "$idem" >"$OUT" 2>&1; then
+  ok 're-applying the same profile is idempotent'
+else
+  cat "$OUT"; bad 're-applying the same profile is idempotent'
+fi
+if git -C "$idem" diff --quiet && git -C "$idem" diff --cached --quiet; then
+  ok 'idempotent re-init leaves the tree unchanged'
+else
+  git -C "$idem" status --short; bad 'idempotent re-init leaves the tree unchanged'
+fi
+
 (( fail == 0 )) && { echo 'all structure tests passed'; exit 0; }
 echo 'structure tests failed'; exit 1

@@ -42,8 +42,15 @@ if [[ -f "$profile_file" ]]; then
   [[ "$profile_name" =~ ^[a-z][a-z0-9-]*$ ]] || error "invalid profile name '$profile_name' in .ai/profile.md"
   required_knowledge=$(frontmatter_value "$profile_file" required_knowledge)
   if [[ -n "$required_knowledge" ]]; then
-    for k in $required_knowledge; do
-      [[ "$k" == *.md ]] || error "required_knowledge entry '$k' in .ai/profile.md is not a .md filename"
+    # Split without glob expansion, then require a plain filename: no '/', no traversal,
+    # no absolute path, and a mandatory .md suffix. Anything else could reference a file
+    # outside .ai/knowledge/ and silently satisfy the required-knowledge contract.
+    read -r -a required_entries <<< "$required_knowledge"
+    for k in "${required_entries[@]}"; do
+      if [[ ! "$k" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*\.md$ ]]; then
+        error "required_knowledge entry '$k' in .ai/profile.md is not a plain .md filename (no paths, no '..', no separators)"
+        continue
+      fi
       need ".ai/knowledge/$k"
     done
   else

@@ -44,7 +44,7 @@ cd agent-portable-project-memory
 ./scripts/init.sh --profile paper /path/to/my-paper  # research/paper profile
 ```
 
-The initializer refuses unsafe overwrites, preserves an existing `AGENTS.md`, and reports conflicts. It installs the chosen profile's knowledge seeds, INDEX router, and a `.ai/profile.md` manifest declaring the project's required knowledge set. In the target project, a new agent should read `AGENTS.md`, `.ai/NOW.md`, and `.ai/INDEX.md`, inspect Git state, then retrieve only the active change and relevant knowledge.
+The initializer refuses unsafe overwrites, preserves an existing `AGENTS.md`, and reports conflicts. It installs the chosen profile's knowledge seeds, INDEX router, and a `.ai/profile.md` manifest declaring the project's required knowledge set. Profile names are restricted to `^[a-z][a-z0-9-]*$`, a profile must ship `profile.md`, `INDEX.md`, and `knowledge/`, and the overlay is applied all-or-nothing: if the target already holds a different profile or a differing router, `init.sh` reports the conflicts, writes nothing, and exits non-zero. Re-running the same profile is idempotent. In the target project, a new agent should read `AGENTS.md`, `.ai/NOW.md`, and `.ai/INDEX.md`, inspect Git state, then retrieve only the active change and relevant knowledge.
 
 Use `./scripts/context.sh [project]` for a concise reconstruction view, `./scripts/checkpoint.sh [project]` before handoff, and `./scripts/validate.sh [project]` for structural checks.
 
