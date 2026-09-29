@@ -1,4 +1,4 @@
-name: APPM CI
+name: APMF CI
 
 on:
   push:

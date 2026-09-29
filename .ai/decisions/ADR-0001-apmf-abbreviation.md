@@ -61,6 +61,7 @@ The repository name, directory name, and Git remote are **not** renamed; those a
 
 - Enumeration of every `APPM` occurrence before the change, and confirmation that the frozen baseline contains none: `.ai/archive/changes/apmf-rename-and-about/evidence.md`.
 - Post-change residual audit (`grep -rn "APPM"` outside `.ai/archive/`) shows hits only in the intentional legacy-marker compatibility path, its test, and the change/NOW records describing the rename.
+  - **Correction (2026-09-29, `fix/apmf-ci-name`):** that audit was extension-filtered (`--include="*.md" --include="*.sh"`) and therefore missed `.github/workflows/ci.yml`, which still declared `name: APPM CI`. The claim above was inaccurate as written. The workflow display name was renamed to `APMF CI` and the audit re-run with `git grep -n "APPM"` over **all** tracked files, which cannot miss a file type. Remaining hits are the legacy-marker compatibility path in `scripts/init.sh`, its test, and text describing the rename (this ADR, `CHANGELOG.md`). See `.ai/archive/changes/apmf-rename-followup/evidence.md`.
 - Legacy-marker compatibility verified by `tests/test_v01_structure.sh` checks: `legacy marker fixture prepared`, `re-init on a legacy-marker project is safe`, `legacy marker is not rewritten`, `legacy marker does not gain a duplicate block`.
 - Frozen README phrases verified by `./tests/test_v01_baseline.sh` after the README redesign.
 - Full suite (`bash -n`, `validate.sh`, baseline, structure, integrity, `git diff --check`) and GitHub CI results recorded in the same evidence file.

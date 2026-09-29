@@ -24,3 +24,4 @@
 - hardened `validate.sh` to reject `required_knowledge` entries that are not plain `.md` filenames, blocking `../` traversal, absolute paths, and nested paths
 - renamed the project abbreviation from APPM to **APMF** across specs, docs, templates, scripts, and tests; `init.sh` still recognizes the legacy `.gitignore` marker so already-initialized projects stay idempotent (see `ADR-0001-apmf-abbreviation`)
 - added `ABOUT.md`, emoji section headings in the README, and the first recorded ADR
+- renamed the GitHub Actions workflow display name to `APMF CI`; the first rename audit was extension-filtered and missed it, and the omission is recorded as an explicit correction in `ADR-0001-apmf-abbreviation`
