@@ -11,4 +11,5 @@ status, so the old and new abbreviations are written without backticks here.
 - [x] `DONE` Record ADR-0001 for the rename and update .ai/decisions/README.md
 - [x] `DONE` Update CHANGELOG.md and .ai/NOW.md
 - [x] `DONE` Run the full suite plus a residual abbreviation audit and record evidence
-- [ ] `TODO` Push, confirm GitHub CI green, then archive after merge
+- [x] `DONE` Push `docs/apmf-rename-and-about` and confirm GitHub CI green (run 36542111945)
+- [ ] `TODO` Fast-forward merge to `main`, confirm CI there, then archive this change
