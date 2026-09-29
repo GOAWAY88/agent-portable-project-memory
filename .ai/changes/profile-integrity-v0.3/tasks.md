@@ -8,4 +8,5 @@
 - [x] `DONE` Add the twelve required negative tests using temporary Git repos and a temporary framework copy
 - [x] `DONE` Update `spec/v0.3-profiles.md`, README, and CHANGELOG for the tightened behavior
 - [x] `DONE` Run the full validation suite plus `git status` / `git diff --stat` and record results in evidence.md
-- [ ] `TODO` Update `.ai/NOW.md`, then push and confirm GitHub CI before archiving
+- [x] `DONE` Update `.ai/NOW.md`, push `fix/profile-integrity-v0.3`, and confirm GitHub CI green (run 36536516253)
+- [ ] `TODO` Archive this change after the branch is reviewed and merged to `main`
