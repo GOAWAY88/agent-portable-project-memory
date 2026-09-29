@@ -14,3 +14,9 @@
 - added negative integrity/idempotence tests and Linux/macOS GitHub CI
 - froze the V0.1-alpha compatibility baseline
 - explicitly deferred SQLite/FTS5/BM25, MCP, semantic retrieval, and adapters
+
+## V0.3 - 2026-09-29
+
+- added init-time project profiles (`software` default, `paper` overlay) seeded from `template/profiles/`
+- made `validate.sh` enforce the declarative `.ai/profile.md` required-knowledge manifest, with frozen software defaults as fallback
+- preserved the empty canonical `.ai/changes/` directory after active changes are archived
