@@ -73,6 +73,9 @@ grep -q "verified_at_commit: $first_sha" "$tmp/project/.ai/NOW.md" \
 grep -q "verified_at_commit: $first_sha" "$tmp/project/.ai/knowledge/PROJECT.md" \
   && ok 'knowledge provenance is bound to the full first-commit SHA' \
   || bad 'knowledge provenance is bound to the full first-commit SHA'
+grep -q 'verified_at_commit: unknown' "$tmp/project/.ai/decisions/ADR-TEMPLATE.md" \
+  && ok 'ADR template provenance remains unresolved' \
+  || bad 'ADR template provenance remains unresolved'
 now_after_close=$(digest "$tmp/project/.ai/NOW.md")
 check 'close-provenance is idempotent' "$ROOT/scripts/close-provenance.sh" "$tmp/project"
 [[ "$now_after_close" == "$(digest "$tmp/project/.ai/NOW.md")" ]] \

@@ -38,7 +38,10 @@ fi
 SHA=$(git -C "$ROOT" rev-parse HEAD^{commit})
 files=("$ROOT/.ai/NOW.md")
 shopt -s nullglob
-for file in "$ROOT"/.ai/knowledge/*.md "$ROOT"/.ai/decisions/*.md; do files+=("$file"); done
+for file in "$ROOT"/.ai/knowledge/*.md; do files+=("$file"); done
+for file in "$ROOT"/.ai/decisions/*.md; do
+  [[ "$(basename "$file")" == "ADR-TEMPLATE.md" ]] || files+=("$file")
+done
 shopt -u nullglob
 
 changed=0

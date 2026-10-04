@@ -6,4 +6,5 @@
 - [x] `DONE` Add structure and negative tests
 - [x] `DONE` Update documentation and record verification evidence
 - [x] `DONE` Run the full shell, baseline, structure, integrity, validator, and whitespace suite
+- [x] `DONE` Exclude instructional ADR-TEMPLATE.md from provenance closeout after dogfood review
 - [ ] `TODO` Review, commit, push, and archive after CI
