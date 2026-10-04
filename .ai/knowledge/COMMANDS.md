@@ -2,7 +2,7 @@
 id: KNOW-COMMANDS
 status: current
 updated: 2026-10-04
-verified_at_commit: unknown
+verified_at_commit: be8807e1bdcf131baca269742af3f8504b1ea8c1
 ---
 # Commands
 
