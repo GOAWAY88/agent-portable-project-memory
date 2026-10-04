@@ -20,9 +20,12 @@ The optional `scripts/close-provenance.sh` helper binds unresolved `verified_at_
 
 The optional `scripts/archive-change.sh` helper preflights and atomically archives completed active changes while repairing NOW, INDEX, and exact ADR evidence routes. It validates the result, rolls back on failure, never creates commits, and refuses an existing archive destination. Specified in `spec/v0.5-lifecycle-closeout.md`.
 
+## V0.6 (Derived Retrieval Index)
+
+The optional `scripts/index-memory.sh` helper rebuilds a disposable SQLite FTS5/BM25 index from canonical `.ai/**/*.md` files. The database is ignored, atomically replaced, and never authoritative; Python/SQLite FTS5 is optional. Specified in `spec/v0.6-retrieval-index.md`.
+
 ## Possible later versions
 
-- optional generated FTS5/BM25 retrieval index
 - dependency-aware task graph
 - agent adapters that remain clients of canonical files
 - richer link and stale-reference checks

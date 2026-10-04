@@ -38,13 +38,14 @@ Memory is stored as human-readable Markdown, while agents load only the small, r
 - 🤝 **Handoff protocols** — bootstrap and checkpoint flows for switching agents safely
 - 🧩 **Project profiles** (V0.3) — `init.sh --profile software|paper` seeds domain-appropriate knowledge, and a declarative `.ai/profile.md` manifest drives required-knowledge validation
 - 🛡️ **Integrity validation** (V0.2) — structural checks, negative tests, idempotence checks, and GitHub CI on Linux/macOS
+- 🔎 **Optional retrieval index** (V0.6) — rebuildable SQLite FTS5/BM25 search derived from canonical Markdown
 - 🐚 **Portable helpers** — a project template plus small Bash scripts, with no runtime dependencies
 
 ### 🚫 Deliberately excluded
 
 V0.1 intentionally does **not** include a vector database, embeddings, MCP server, cloud service, automatic LLM summarizer, or agent-specific hook. Future retrieval layers must remain derived from the canonical files.
 
-V0.2 keeps that boundary: SQLite FTS5/BM25, MCP, semantic retrieval, and agent adapters remain deferred until canonical Markdown integrity is stable. The frozen compatibility contract is [`spec/baselines/v0.1-alpha.md`](spec/baselines/v0.1-alpha.md). V0.3 keeps the protocol domain-neutral while making the seeded knowledge set declarative ([`spec/v0.3-profiles.md`](spec/v0.3-profiles.md)).
+V0.2 kept that boundary until canonical Markdown integrity was stable. V0.6 adds only an optional, disposable SQLite FTS5/BM25 index; MCP, semantic retrieval, and agent adapters remain deferred. The frozen compatibility contract is [`spec/baselines/v0.1-alpha.md`](spec/baselines/v0.1-alpha.md). V0.3 keeps the protocol domain-neutral while making the seeded knowledge set declarative ([`spec/v0.3-profiles.md`](spec/v0.3-profiles.md)).
 
 ## 🏛️ Architecture
 
@@ -53,7 +54,7 @@ L0 bootstrap/routing   AGENTS.md · .ai/NOW.md · .ai/INDEX.md
 L1 active work          .ai/changes/<change>/
 L2 current truth         .ai/knowledge/ · .ai/decisions/
 L3 history               .ai/archive/
-L4 retrieval             filesystem + INDEX today; FTS/BM25 later (derived)
+L4 retrieval             filesystem + INDEX; optional FTS5/BM25 (derived)
 ```
 
 ⚖️ Executable evidence and current source outrank summaries. 📁 Archives are never part of default startup context.
@@ -77,6 +78,7 @@ The initializer refuses unsafe overwrites, preserves an existing `AGENTS.md`, an
 | ✅ Pre-handoff checklist | `./scripts/checkpoint.sh [project]` |
 | 🧾 Close commit provenance | `./scripts/close-provenance.sh [--check] [project]` |
 | 📦 Archive completed change | `./scripts/archive-change.sh [--check] <project> <change>` |
+| 🔎 Rebuild/search derived index | `./scripts/index-memory.sh [--query <term>] <project>` |
 | 🛡️ Structural & integrity checks | `./scripts/validate.sh [project]` |
 
 ## 🌐 Designed portability
@@ -88,6 +90,7 @@ The format is designed to be portable across Codex, Cursor, Qwen Code, Claude Co
 - 📖 [`ABOUT.md`](ABOUT.md) — why this project exists and who it is for
 - 🏗️ [`docs/architecture.md`](docs/architecture.md) — layer model and startup behavior
 - 📜 [`spec/v0.1.md`](spec/v0.1.md) · [`spec/v0.2-memory-integrity.md`](spec/v0.2-memory-integrity.md) · [`spec/v0.3-profiles.md`](spec/v0.3-profiles.md)
+- 🔎 [`spec/v0.6-retrieval-index.md`](spec/v0.6-retrieval-index.md) — optional derived FTS5/BM25 retrieval
 - 🧭 [`docs/design-principles.md`](docs/design-principles.md) — the twelve rules behind the format
 - 🔮 [`docs/roadmap.md`](docs/roadmap.md) — what is deferred, and why
 - 🧩 [`template/`](template/) — what an initialized project receives
