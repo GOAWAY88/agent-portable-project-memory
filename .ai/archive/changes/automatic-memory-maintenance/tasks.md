@@ -5,4 +5,4 @@
 - [x] `DONE` Add generated-project regression assertions
 - [x] `DONE` Run the full validation suite and record evidence
 - [x] `DONE` Update NOW and prepare handoff
-- [ ] `TODO` Review and commit the change, then archive it after integration
+- [x] `DONE` Review and commit the change, then archive it after integration (`943f9cb`)

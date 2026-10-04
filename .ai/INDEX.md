@@ -10,9 +10,10 @@ Read this router, not the whole tree.
 | Commands and validation | `.ai/knowledge/COMMANDS.md` |
 | Durable decisions | `.ai/decisions/` (see `ADR-0001-apmf-abbreviation.md`) |
 | Project narrative and audience | `ABOUT.md` |
-| Current implementation | `.ai/changes/automatic-memory-maintenance/` |
+| Current implementation | `.ai/changes/provenance-close-v0.4/` |
 | Future directions | `docs/roadmap.md` |
 | Project profiles (V0.3) | `spec/v0.3-profiles.md`, `.ai/profile.md` |
+| Provenance closeout (V0.4) | `spec/v0.4-provenance-close.md`, `scripts/close-provenance.sh` |
 | Completed V0.2 change | `.ai/archive/changes/memory-integrity-v0.2/` |
 | Completed handoff fix | `.ai/archive/changes/qwen-handoff-v0.1/` |
 | Completed V0.3 change | `.ai/archive/changes/profile-templates-v0.3/` |

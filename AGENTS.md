@@ -13,4 +13,4 @@ Project-memory maintenance is part of every non-trivial task that changes code, 
 
 Small, behavior-neutral edits do not require a new active change. Do not record ordinary conversation, speculation, secrets, or claims that have not been verified; mark uncertain claims explicitly instead. Do not recursively load `.ai/archive/` or treat summaries as higher authority than source and evidence.
 
-Before handoff, run `bash -n scripts/*.sh tests/*.sh`, `./scripts/validate.sh .`, `./tests/test_v01_baseline.sh`, `./tests/test_v01_structure.sh`, and `./tests/test_memory_integrity.sh`; update `.ai/NOW.md`, tasks, and evidence, and record durable decisions as individual ADRs.
+Before handoff, run `bash -n scripts/*.sh tests/*.sh`, `./scripts/validate.sh .`, `./tests/test_v01_baseline.sh`, `./tests/test_v01_structure.sh`, and `./tests/test_memory_integrity.sh`; after a Git commit exists, run `./scripts/close-provenance.sh .` (or `./scripts/checkpoint.sh .`) to bind unresolved provenance placeholders to that commit; update `.ai/NOW.md`, tasks, and evidence, and record durable decisions as individual ADRs.

@@ -13,7 +13,7 @@ trap 'rm -rf "$tmp" "$OUT"' EXIT
 
 for p in AGENTS.md .ai/NOW.md .ai/INDEX.md .ai/knowledge/PROJECT.md .ai/decisions/README.md \
   .ai/archive/changes/memory-integrity-v0.2/proposal.md template/AGENTS.md template/.ai/NOW.md \
-  template/.ai/changes/_template/evidence.md scripts/init.sh scripts/context.sh scripts/checkpoint.sh scripts/validate.sh; do
+  template/.ai/changes/_template/evidence.md scripts/init.sh scripts/context.sh scripts/checkpoint.sh scripts/close-provenance.sh scripts/validate.sh; do
   [[ -e "$ROOT/$p" ]] && ok "required file $p" || bad "required file $p"
 done
 
@@ -57,7 +57,48 @@ check 're-init on a legacy-marker project is safe' "$ROOT/scripts/init.sh" "$leg
 [[ $(grep -cF 'derived/local memory infrastructure' "$legacyignore/.gitignore") -eq 1 ]] && ok 'legacy marker does not gain a duplicate block' || bad 'legacy marker does not gain a duplicate block'
 
 mkdir -p "$tmp/project/.ai/runtime"; touch "$tmp/project/.ai/runtime/cache.db"
+if "$ROOT/scripts/close-provenance.sh" "$tmp/project" >"$OUT" 2>&1; then
+  bad 'close-provenance rejects an unborn repository'
+elif grep -q 'no commit exists yet' "$OUT"; then
+  ok 'close-provenance rejects an unborn repository without writing'
+else
+  cat "$OUT"; bad 'close-provenance rejects an unborn repository (wrong diagnostic)'
+fi
 git -C "$tmp/project" add .; git -C "$tmp/project" commit -qm init
+first_sha=$(git -C "$tmp/project" rev-parse HEAD)
+check 'close-provenance binds first commit' "$ROOT/scripts/close-provenance.sh" "$tmp/project"
+grep -q "verified_at_commit: $first_sha" "$tmp/project/.ai/NOW.md" \
+  && ok 'NOW provenance is bound to the full first-commit SHA' \
+  || bad 'NOW provenance is bound to the full first-commit SHA'
+grep -q "verified_at_commit: $first_sha" "$tmp/project/.ai/knowledge/PROJECT.md" \
+  && ok 'knowledge provenance is bound to the full first-commit SHA' \
+  || bad 'knowledge provenance is bound to the full first-commit SHA'
+now_after_close=$(digest "$tmp/project/.ai/NOW.md")
+check 'close-provenance is idempotent' "$ROOT/scripts/close-provenance.sh" "$tmp/project"
+[[ "$now_after_close" == "$(digest "$tmp/project/.ai/NOW.md")" ]] \
+  && ok 'idempotent close-provenance leaves NOW unchanged' \
+  || bad 'idempotent close-provenance leaves NOW unchanged'
+check 'close-provenance check passes after closeout' "$ROOT/scripts/close-provenance.sh" --check "$tmp/project"
+check 'validate passes after provenance closeout' "$ROOT/scripts/validate.sh" "$tmp/project"
+
+check_fixture="$tmp/checkpoint"
+git clone -q "$tmp/project" "$check_fixture"
+check_now_before=$(digest "$check_fixture/.ai/NOW.md")
+if "$ROOT/scripts/close-provenance.sh" --check "$check_fixture" >"$OUT" 2>&1; then
+  bad 'provenance check detects unresolved placeholders'
+elif grep -q 'unresolved file(s)' "$OUT"; then
+  ok 'provenance check detects unresolved placeholders'
+else
+  cat "$OUT"; bad 'provenance check detects unresolved placeholders (wrong diagnostic)'
+fi
+[[ "$check_now_before" == "$(digest "$check_fixture/.ai/NOW.md")" ]] \
+  && ok 'provenance check mode does not write' \
+  || bad 'provenance check mode does not write'
+check 'checkpoint invokes provenance closeout' "$ROOT/scripts/checkpoint.sh" "$check_fixture"
+grep -q "verified_at_commit: $first_sha" "$check_fixture/.ai/NOW.md" \
+  && ok 'checkpoint closes NOW provenance automatically' \
+  || bad 'checkpoint closes NOW provenance automatically'
+
 git -C "$tmp/project" check-ignore -q .ai/runtime/cache.db && ok 'runtime files ignored' || bad 'runtime files ignored'
 
 # Regression: archival of the last change must not leave .ai/changes/ untracked and empty,

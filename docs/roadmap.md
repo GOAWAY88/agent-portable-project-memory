@@ -12,6 +12,10 @@ Structural and provenance validation, negative tests, idempotence checks, and Gi
 
 Init-time profiles (`template/profiles/software|paper/`) seed domain-appropriate knowledge and a declarative `.ai/profile.md` manifest; `validate.sh` checks the manifest-declared required knowledge set and falls back to the frozen software defaults when no manifest exists. Profile selection is explicit; detection may only suggest. Specified in `spec/v0.3-profiles.md`.
 
+## V0.4 (Provenance Closeout)
+
+The optional `scripts/close-provenance.sh` helper binds unresolved `verified_at_commit` placeholders in current memory to an existing full `HEAD` SHA. `checkpoint.sh` invokes it for initialized projects; it is idempotent, preserves existing provenance, and never edits semantic content or creates commits. Specified in `spec/v0.4-provenance-close.md`.
+
 ## Possible later versions
 
 - optional generated FTS5/BM25 retrieval index
