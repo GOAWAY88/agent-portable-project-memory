@@ -4,4 +4,4 @@
 - [x] `DONE` Add rebuild, stale-document, idempotence, and failed-query tests
 - [x] `DONE` Document optional retrieval boundaries and commands
 - [x] `DONE` Add a durable ADR and update roadmap/architecture
-- [ ] `IN_PROGRESS` Run the final full suite, archive this change, and record the closeout commit
+- [x] `DONE` Run the final full suite, archive this change, and record the closeout commit

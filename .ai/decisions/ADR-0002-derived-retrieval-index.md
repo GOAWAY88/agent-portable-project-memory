@@ -6,7 +6,7 @@ updated: 2026-10-04
 verified_at_commit: a13cb1074b28d70e7093316c192b9c7f5779505e
 supersedes: null
 superseded_by: null
-evidence: .ai/changes/retrieval-index-v0.6/evidence.md
+evidence: .ai/archive/changes/retrieval-index-v0.6/evidence.md
 ---
 # ADR-0002-derived-retrieval-index: Keep FTS5/BM25 strictly derived
 
@@ -32,4 +32,4 @@ The optional V0.6 retrieval layer uses a disposable SQLite FTS5/BM25 database re
 
 ## Evidence and provenance
 
-See `.ai/changes/retrieval-index-v0.6/evidence.md` and the V0.6 retrieval tests.
+See `.ai/archive/changes/retrieval-index-v0.6/evidence.md` and the V0.6 retrieval tests.

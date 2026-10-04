@@ -17,7 +17,7 @@ Read this router, not the whole tree.
 | Completed V0.4 change | `.ai/archive/changes/provenance-close-v0.4/` |
 | Lifecycle closeout (V0.5) | `.ai/archive/changes/lifecycle-closeout-v0.5/`, `scripts/archive-change.sh` |
 | Lifecycle closeout specification | `spec/v0.5-lifecycle-closeout.md` |
-| Retrieval index (V0.6) | `.ai/changes/retrieval-index-v0.6/`, `spec/v0.6-retrieval-index.md`, `scripts/index-memory.sh` |
+| Retrieval index (V0.6) | `.ai/archive/changes/retrieval-index-v0.6/`, `spec/v0.6-retrieval-index.md`, `scripts/index-memory.sh` |
 | Completed V0.2 change | `.ai/archive/changes/memory-integrity-v0.2/` |
 | Completed handoff fix | `.ai/archive/changes/qwen-handoff-v0.1/` |
 | Completed V0.3 change | `.ai/archive/changes/profile-templates-v0.3/` |
