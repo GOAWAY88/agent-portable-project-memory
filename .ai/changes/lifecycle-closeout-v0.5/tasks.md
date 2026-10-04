@@ -5,4 +5,5 @@
 - [x] `DONE` Implement archive-change helper and documentation
 - [x] `DONE` Add lifecycle tests and CI coverage
 - [x] `DONE` Run the full suite, commit, and record evidence
-- [ ] `TODO` Dogfood archive-change on a completed target change and archive this change after CI
+- [x] `DONE` Dogfood archive-change on a completed target change (`299e3fd` + `033295e`)
+- [ ] `TODO` Push `main`, confirm CI, and archive this framework change locally
