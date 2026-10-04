@@ -17,5 +17,7 @@ verified_at_commit: be8807e1bdcf131baca269742af3f8504b1ea8c1
 | Checkpoint checklist | `./scripts/checkpoint.sh .` |
 | Close unresolved provenance after a commit | `./scripts/close-provenance.sh /path/to/project` |
 | Check provenance without writing | `./scripts/close-provenance.sh --check /path/to/project` |
+| Archive a completed change | `./scripts/archive-change.sh /path/to/project <change>` |
+| Check archive preflight without writing | `./scripts/archive-change.sh --check /path/to/project <change>` |
 | Init a project (default software profile) | `./scripts/init.sh /path/to/project` |
 | Init with a profile | `./scripts/init.sh --profile paper /path/to/project` |

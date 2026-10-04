@@ -16,6 +16,10 @@ Init-time profiles (`template/profiles/software|paper/`) seed domain-appropriate
 
 The optional `scripts/close-provenance.sh` helper binds unresolved `verified_at_commit` placeholders in current memory to an existing full `HEAD` SHA. `checkpoint.sh` invokes it for initialized projects; it is idempotent, preserves existing provenance, and never edits semantic content or creates commits. Specified in `spec/v0.4-provenance-close.md`.
 
+## V0.5 (Lifecycle Closeout)
+
+The optional `scripts/archive-change.sh` helper preflights and atomically archives completed active changes while repairing NOW, INDEX, and exact ADR evidence routes. It validates the result, rolls back on failure, never creates commits, and refuses an existing archive destination. Specified in `spec/v0.5-lifecycle-closeout.md`.
+
 ## Possible later versions
 
 - optional generated FTS5/BM25 retrieval index

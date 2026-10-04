@@ -76,6 +76,7 @@ The initializer refuses unsafe overwrites, preserves an existing `AGENTS.md`, an
 | 🔍 Concise reconstruction view | `./scripts/context.sh [project]` |
 | ✅ Pre-handoff checklist | `./scripts/checkpoint.sh [project]` |
 | 🧾 Close commit provenance | `./scripts/close-provenance.sh [--check] [project]` |
+| 📦 Archive completed change | `./scripts/archive-change.sh [--check] <project> <change>` |
 | 🛡️ Structural & integrity checks | `./scripts/validate.sh [project]` |
 
 ## 🌐 Designed portability

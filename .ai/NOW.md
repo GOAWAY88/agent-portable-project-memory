@@ -7,11 +7,11 @@ verified_at_commit: 9289fd485af5f6306c5e2e50ce011dc13fa34613
 # Now
 
 Project: **Agent-Portable Project Memory Framework**
-Milestone: **V0.4 provenance closeout and dogfood complete locally**
-Active change: **none**
-Current task: **V0.4 provenance closeout is implemented, committed, dogfooded, and archived locally.**
+Milestone: **V0.5 lifecycle closeout in progress**
+Active change: **lifecycle-closeout-v0.5**
+Current task: **Archive-change helper and lifecycle tests are implemented and locally verified; commit and target dogfood remain.**
 Blockers: **none known**
-Next action: **Push `main` and confirm Ubuntu/macOS CI; then record the run in the archived evidence.**
-Last verified state: **At `main` commit `d6f595f` plus this working tree, the full framework suite passed; dogfood on `my-software-project` reproduced and fixed stale post-archive routing, completed a health feature with ADR, and verified a behavior-neutral docs path.**
+Next action: **Run the full suite, commit V0.5, then dogfood archive-change on a completed target change.**
+Last verified state: **At `main` commit `8d4e828` plus this working tree, V0.4 and dogfood are complete locally; V0.5 changes are not yet verified.**
 
-Relevant pointers: `.ai/INDEX.md`, `.ai/archive/changes/provenance-close-v0.4/`, `spec/v0.4-provenance-close.md`, `scripts/close-provenance.sh`, `scripts/checkpoint.sh`.
+Relevant pointers: `.ai/INDEX.md`, `.ai/changes/lifecycle-closeout-v0.5/`, `spec/v0.4-provenance-close.md`, `scripts/validate.sh`, `scripts/close-provenance.sh`.

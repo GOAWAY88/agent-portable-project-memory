@@ -34,5 +34,7 @@ jobs:
         run: ./tests/test_v01_structure.sh
       - name: Run V0.2 integrity tests
         run: ./tests/test_memory_integrity.sh
+      - name: Run V0.5 lifecycle closeout tests
+        run: ./tests/test_lifecycle_closeout.sh
       - name: Check whitespace
         run: git diff --check
