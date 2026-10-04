@@ -79,12 +79,17 @@ while IFS= read -r token; do
 done <<< "$statuses"
 if (( ! all_done )); then exit 1; fi
 
-if ! grep -q '^| Current work |' "$INDEX"; then
-  echo "archive: INDEX has no Current work row" >&2
+index_label=
+if grep -q '^| Current work |' "$INDEX"; then
+  index_label='Current work'
+elif grep -q '^| Current implementation |' "$INDEX"; then
+  index_label='Current implementation'
+else
+  echo "archive: INDEX has no Current work or Current implementation row" >&2
   exit 1
 fi
-if ! grep -qF "$OLD_PATH" "$INDEX"; then
-  echo "archive: INDEX Current work does not point to $OLD_PATH" >&2
+if ! grep -F "$OLD_PATH" "$INDEX" | grep -Eq "^\\| ${index_label} \\|"; then
+  echo "archive: INDEX $index_label does not point to $OLD_PATH" >&2
   exit 1
 fi
 
@@ -99,7 +104,7 @@ shopt -u nullglob
 if (( CHECK_ONLY )); then
   echo "archive: READY $CHANGE"
   echo "  move: $OLD_PATH -> $NEW_PATH"
-  echo "  route: NOW active change -> none; INDEX current work -> .ai/NOW.md"
+  echo "  route: NOW active change -> none; INDEX $index_label -> .ai/NOW.md"
   for adr in "${adr_files[@]}"; do echo "  evidence: ${adr#$ROOT/} ($OLD_PATH -> $NEW_PATH)"; done
   exit 0
 fi
@@ -139,7 +144,15 @@ if ! { awk '
   rm -f "$tmp"; rollback; echo "archive: failed to update NOW.md" >&2; exit 1
 fi
 
-if ! { awk '/^\| Current work \|/ { print "| Current work | No active change; see `.ai/NOW.md` |"; next } { print }' "$INDEX" > "$tmp" && mv "$tmp" "$INDEX"; }; then
+if ! {
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    if [[ "$line" == "| $index_label |"* ]]; then
+        printf '%s\n' "| $index_label | No active change; see \`.ai/NOW.md\` |"
+    else
+      printf '%s\n' "${line//$OLD_PATH/$NEW_PATH}"
+    fi
+  done < "$INDEX" > "$tmp" && mv "$tmp" "$INDEX"
+}; then
   rm -f "$tmp"; rollback; echo "archive: failed to update INDEX.md" >&2; exit 1
 fi
 

@@ -6,4 +6,4 @@
 - [x] `DONE` Add lifecycle tests and CI coverage
 - [x] `DONE` Run the full suite, commit, and record evidence
 - [x] `DONE` Dogfood archive-change on a completed target change (`299e3fd` + `033295e`)
-- [ ] `TODO` Push `main`, confirm CI, and archive this framework change locally
+- [x] `DONE` Commit V0.5 locally; remote push and CI confirmation remain post-handoff

@@ -70,6 +70,23 @@ grep -qF '.ai/archive/changes/demo-change/evidence.md' "$repo/.ai/decisions/ADR-
 if "$ROOT/scripts/validate.sh" "$repo" >"$OUT" 2>&1; then ok 'archived project validates'; else cat "$OUT"; bad 'archived project validates'; fi
 expect_fail 'repeated archive is rejected' 'destination already exists' "$ROOT/scripts/archive-change.sh" "$repo" demo-change
 
+implementation_row="$tmp/implementation-row"
+new_repo "$implementation_row"
+make_active "$implementation_row"
+sed 's/| Current work |/| Current implementation |/' "$implementation_row/.ai/INDEX.md" > "$implementation_row/INDEX.tmp" && mv "$implementation_row/INDEX.tmp" "$implementation_row/.ai/INDEX.md"
+printf '%s\n' '| Completed pointer | `.ai/changes/demo-change/` |' >> "$implementation_row/.ai/INDEX.md"
+if "$ROOT/scripts/archive-change.sh" "$implementation_row" demo-change >"$OUT" 2>&1; then
+  ok 'Current implementation INDEX row is supported'
+else
+  cat "$OUT"; bad 'Current implementation INDEX row is supported'
+fi
+grep -qF '| Current implementation | No active change; see `.ai/NOW.md` |' "$implementation_row/.ai/INDEX.md" \
+  && ok 'archive repairs Current implementation route' \
+  || bad 'archive repairs Current implementation route'
+grep -qF '| Completed pointer | `.ai/archive/changes/demo-change/` |' "$implementation_row/.ai/INDEX.md" \
+  && ok 'archive repairs additional INDEX references' \
+  || bad 'archive repairs additional INDEX references'
+
 incomplete="$tmp/incomplete"
 new_repo "$incomplete"
 make_active "$incomplete"
