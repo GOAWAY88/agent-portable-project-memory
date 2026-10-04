@@ -7,4 +7,6 @@
 - [x] `DONE` Update documentation and record verification evidence
 - [x] `DONE` Run the full shell, baseline, structure, integrity, validator, and whitespace suite
 - [x] `DONE` Exclude instructional ADR-TEMPLATE.md from provenance closeout after dogfood review
-- [ ] `TODO` Review, commit, push, and archive after CI
+- [x] `DONE` Review and commit the helper implementation (`be8807e`, `7fcf70e`, `d6f595f`)
+- [x] `DONE` Dogfood the helper through route repair, a feature/ADR, and a behavior-neutral documentation edit
+- [ ] `TODO` Push `main` and confirm GitHub CI; archive is complete locally
