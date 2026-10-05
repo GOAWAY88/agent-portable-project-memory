@@ -32,10 +32,16 @@ else
   grep -q 'optional retrieval index is absent' "$out" && ok 'strict doctor rejects absent optional index' || { cat "$out"; bad 'strict doctor absent-index diagnostic'; }
 fi
 
-if "$ROOT/scripts/index-memory.sh" "$repo" >"$out" 2>&1 && "$ROOT/scripts/doctor.sh" --strict "$repo" >"$out" 2>&1; then
-  ok 'strict doctor passes after rebuilding current index'
+retrieval_available=0
+if "$ROOT/scripts/index-memory.sh" --check "$repo" >"$out" 2>&1; then
+  retrieval_available=1
+  if "$ROOT/scripts/index-memory.sh" "$repo" >"$out" 2>&1 && "$ROOT/scripts/doctor.sh" --strict "$repo" >"$out" 2>&1; then
+    ok 'strict doctor passes after rebuilding current index'
+  else
+    cat "$out"; bad 'strict doctor passes after rebuilding current index'
+  fi
 else
-  cat "$out"; bad 'strict doctor passes after rebuilding current index'
+  ok 'optional FTS5 dependency may be unavailable on a runner'
 fi
 
 cp "$repo/.ai/INDEX.md" "$repo/index.good"
@@ -69,10 +75,18 @@ fi
 git -C "$repo" add -A
 git -C "$repo" commit -qm archived
 
-if "$ROOT/scripts/index-memory.sh" "$repo" >"$out" 2>&1 && "$ROOT/scripts/doctor.sh" --strict "$repo" >"$out" 2>&1; then
-  ok 'end-to-end archived project passes strict handoff gate'
+if (( retrieval_available )); then
+  if "$ROOT/scripts/index-memory.sh" "$repo" >"$out" 2>&1 && "$ROOT/scripts/doctor.sh" --strict "$repo" >"$out" 2>&1; then
+    ok 'end-to-end archived project passes strict handoff gate'
+  else
+    cat "$out"; bad 'end-to-end archived project passes strict handoff gate'
+  fi
 else
-  cat "$out"; bad 'end-to-end archived project passes strict handoff gate'
+  if "$ROOT/scripts/doctor.sh" "$repo" >"$out" 2>&1; then
+    ok 'end-to-end archived project passes default handoff gate without optional retrieval'
+  else
+    cat "$out"; bad 'end-to-end archived project passes default handoff gate without optional retrieval'
+  fi
 fi
 [[ -d "$repo/.ai/archive/changes/$change" && ! -d "$repo/.ai/changes/$change" ]] \
   && ok 'end-to-end archive leaves active area clear' \
