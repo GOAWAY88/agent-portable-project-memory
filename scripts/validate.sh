@@ -121,7 +121,13 @@ for adr in "$ROOT"/.ai/decisions/*.md; do
   valid_date "$(frontmatter_value "$adr" created)" || error "invalid created date in $base"
   valid_date "$(frontmatter_value "$adr" updated)" || error "invalid updated date in $base"
   commit=$(frontmatter_value "$adr" verified_at_commit); verify_commit "$commit" "$adr"
-  if [[ "$status" == "accepted" && "$(frontmatter_value "$adr" evidence)" == "[]" ]]; then error "accepted ADR lacks evidence in $base"; fi
+  evidence=$(frontmatter_value "$adr" evidence)
+  if [[ "$status" == "accepted" && "$evidence" == "[]" ]]; then error "accepted ADR lacks evidence in $base"; fi
+  case "$evidence" in
+    .ai/*|./.ai/*|AGENTS.md|README.md|ABOUT.md|CHANGELOG.md|docs/*|spec/*|scripts/*|tests/*|template/*)
+      evidence=${evidence#./}
+      [[ -e "$ROOT/$evidence" ]] || error "ADR evidence path does not exist: $evidence in $base";;
+  esac
 done
 
 check_change() {

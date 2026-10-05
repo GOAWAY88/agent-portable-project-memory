@@ -7,11 +7,11 @@ verified_at_commit: 9289fd485af5f6306c5e2e50ce011dc13fa34613
 # Now
 
 Project: **Agent-Portable Project Memory Framework**
-Milestone: **V0.6 derived retrieval index complete locally**
-Active change: **none**
-Current task: **V0.6 retrieval index is archived and locally validated.**
+Milestone: **V0.7 current-memory reference integrity in progress**
+Active change: **reference-integrity-v0.7**
+Current task: **Detect missing and stale routes in current `.ai/` Markdown and ADR evidence.**
 Blockers: **none known**
-Next action: **Push `main`, confirm Ubuntu/macOS CI, then create a new active change for the next non-trivial task.**
-Last verified state: **At `main` commit `f049d1f`; V0.6 implementation, tests, provenance closeout, and `my-software-project` dogfood are complete locally.**
+Next action: **Implement the checker, add negative tests and CI coverage, then dogfood on `my-software-project`.**
+Last verified state: **At `main` commit `e70dbbe`; V0.6 is released as `v0.6-retrieval-index`, and V0.7 reference checks are not yet implemented.**
 
-Relevant pointers: `.ai/INDEX.md`, `.ai/archive/changes/retrieval-index-v0.6/`, `.ai/archive/changes/lifecycle-closeout-v0.5/`, `spec/v0.6-retrieval-index.md`, `scripts/index-memory.sh`, `scripts/validate.sh`.
+Relevant pointers: `.ai/INDEX.md`, `.ai/changes/reference-integrity-v0.7/`, `.ai/archive/changes/retrieval-index-v0.6/`, `spec/v0.6-retrieval-index.md`, `scripts/check-references.sh`, `scripts/validate.sh`.

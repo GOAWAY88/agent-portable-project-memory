@@ -22,5 +22,6 @@ verified_at_commit: be8807e1bdcf131baca269742af3f8504b1ea8c1
 | Check optional FTS5 support | `./scripts/index-memory.sh --check /path/to/project` |
 | Rebuild optional retrieval index | `./scripts/index-memory.sh /path/to/project` |
 | Search optional retrieval index | `./scripts/index-memory.sh --query <term> /path/to/project` |
+| Check current-memory references | `./scripts/check-references.sh /path/to/project` |
 | Init a project (default software profile) | `./scripts/init.sh /path/to/project` |
 | Init with a profile | `./scripts/init.sh --profile paper /path/to/project` |

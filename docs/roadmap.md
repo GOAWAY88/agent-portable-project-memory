@@ -24,11 +24,14 @@ The optional `scripts/archive-change.sh` helper preflights and atomically archiv
 
 The optional `scripts/index-memory.sh` helper rebuilds a disposable SQLite FTS5/BM25 index from canonical `.ai/**/*.md` files. The database is ignored, atomically replaced, and never authoritative; Python/SQLite FTS5 is optional. Specified in `spec/v0.6-retrieval-index.md`.
 
+## V0.7 (Current Reference Integrity)
+
+The read-only `scripts/check-references.sh` helper detects missing local routes and stale `.ai/changes/` references after archival; `validate.sh` also verifies local ADR evidence paths. Historical archives remain excluded. Specified in `spec/v0.7-reference-integrity.md`.
+
 ## Possible later versions
 
 - dependency-aware task graph
 - agent adapters that remain clients of canonical files
-- richer link and stale-reference checks
 - optional MCP or cloud integrations
 - additional profiles (data-engineering, hardware/firmware) contributed as new `template/profiles/` directories
 
