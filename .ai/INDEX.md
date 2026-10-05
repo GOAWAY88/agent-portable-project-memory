@@ -10,7 +10,7 @@ Read this router, not the whole tree.
 | Commands and validation | `.ai/knowledge/COMMANDS.md` |
 | Durable decisions | `.ai/decisions/` (see `ADR-0001-apmf-abbreviation.md`) |
 | Project narrative and audience | `ABOUT.md` |
-| Current implementation | No active change; see `.ai/NOW.md` |
+| Current implementation | `.ai/changes/handoff-gate-v0.8/` |
 | Future directions | `docs/roadmap.md` |
 | Project profiles (V0.3) | `spec/v0.3-profiles.md`, `.ai/profile.md` |
 | Provenance closeout (V0.4) | `spec/v0.4-provenance-close.md`, `scripts/close-provenance.sh` |
@@ -19,6 +19,7 @@ Read this router, not the whole tree.
 | Lifecycle closeout specification | `spec/v0.5-lifecycle-closeout.md` |
 | Retrieval index (V0.6) | `.ai/archive/changes/retrieval-index-v0.6/`, `spec/v0.6-retrieval-index.md`, `scripts/index-memory.sh` |
 | Current reference integrity (V0.7) | `.ai/archive/changes/reference-integrity-v0.7/`, `scripts/check-references.sh` |
+| Handoff gate (V0.8) | `.ai/changes/handoff-gate-v0.8/`, `scripts/doctor.sh` |
 | Completed V0.2 change | `.ai/archive/changes/memory-integrity-v0.2/` |
 | Completed handoff fix | `.ai/archive/changes/qwen-handoff-v0.1/` |
 | Completed V0.3 change | `.ai/archive/changes/profile-templates-v0.3/` |

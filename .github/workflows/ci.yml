@@ -40,5 +40,9 @@ jobs:
         run: ./tests/test_retrieval_index.sh
       - name: Run V0.7 reference integrity tests
         run: ./tests/test_reference_integrity.sh
+      - name: Run V0.8 handoff gate tests
+        run: ./tests/test_handoff_gate.sh
+      - name: Run default handoff doctor
+        run: ./scripts/doctor.sh .
       - name: Check whitespace
         run: git diff --check

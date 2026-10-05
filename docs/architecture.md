@@ -13,3 +13,5 @@ APMF separates durable repository memory from an agent's temporary context. The 
 The canonical source is Git-tracked Markdown. The V0.6 FTS5/BM25 index accelerates retrieval but never replaces or mutates canonical truth. Projects may add files, but should not turn `NOW.md` into a database or append every session to one global log.
 
 Memory is branch-aware. A claim should identify its branch/commit when that affects its validity; agents verify high-impact claims against `git status`, branch, recent commits, source, and tests.
+
+The V0.8 handoff gate (`scripts/doctor.sh`) composes these checks without becoming another memory layer; it diagnoses current state, while `checkpoint.sh` remains the explicit provenance-closeout boundary.

@@ -40,6 +40,7 @@ Memory is stored as human-readable Markdown, while agents load only the small, r
 - 🛡️ **Integrity validation** (V0.2) — structural checks, negative tests, idempotence checks, and GitHub CI on Linux/macOS
 - 🔎 **Optional retrieval index** (V0.6) — rebuildable SQLite FTS5/BM25 search derived from canonical Markdown
 - 🔗 **Reference integrity** (V0.7) — read-only detection of missing and stale current-memory routes
+- 🩺 **Handoff gate** (V0.8) — one read-only health check for validation, provenance, Git state, and optional retrieval freshness
 - 🐚 **Portable helpers** — a project template plus small Bash scripts, with no runtime dependencies
 
 ### 🚫 Deliberately excluded
@@ -81,6 +82,7 @@ The initializer refuses unsafe overwrites, preserves an existing `AGENTS.md`, an
 | 📦 Archive completed change | `./scripts/archive-change.sh [--check] <project> <change>` |
 | 🔎 Rebuild/search derived index | `./scripts/index-memory.sh [--query <term>] <project>` |
 | 🔗 Check current-memory references | `./scripts/check-references.sh <project>` |
+| 🩺 Run handoff health gate | `./scripts/doctor.sh [--strict] <project>` |
 | 🛡️ Structural & integrity checks | `./scripts/validate.sh [project]` |
 
 ## 🌐 Designed portability
@@ -94,6 +96,7 @@ The format is designed to be portable across Codex, Cursor, Qwen Code, Claude Co
 - 📜 [`spec/v0.1.md`](spec/v0.1.md) · [`spec/v0.2-memory-integrity.md`](spec/v0.2-memory-integrity.md) · [`spec/v0.3-profiles.md`](spec/v0.3-profiles.md)
 - 🔎 [`spec/v0.6-retrieval-index.md`](spec/v0.6-retrieval-index.md) — optional derived FTS5/BM25 retrieval
 - 🔗 [`spec/v0.7-reference-integrity.md`](spec/v0.7-reference-integrity.md) — current-memory stale-route checks
+- 🩺 [`spec/v0.8-handoff-gate.md`](spec/v0.8-handoff-gate.md) — unified read-only handoff health gate
 - 🧭 [`docs/design-principles.md`](docs/design-principles.md) — the twelve rules behind the format
 - 🔮 [`docs/roadmap.md`](docs/roadmap.md) — what is deferred, and why
 - 🧩 [`template/`](template/) — what an initialized project receives

@@ -28,6 +28,10 @@ The optional `scripts/index-memory.sh` helper rebuilds a disposable SQLite FTS5/
 
 The read-only `scripts/check-references.sh` helper detects missing local routes and stale `.ai/changes/` references after archival; `validate.sh` also verifies local ADR evidence paths. Historical archives remain excluded. Specified in `spec/v0.7-reference-integrity.md`.
 
+## V0.8 (Handoff Gate)
+
+The read-only `scripts/doctor.sh` composes validation, reference, provenance, Git-state, and optional retrieval-freshness checks; `checkpoint.sh` invokes it after its explicit provenance closeout. Strict mode turns warnings into failures, and an end-to-end lifecycle test verifies the complete handoff path. Specified in `spec/v0.8-handoff-gate.md`.
+
 ## Possible later versions
 
 - dependency-aware task graph

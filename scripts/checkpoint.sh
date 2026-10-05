@@ -7,6 +7,10 @@ if [[ -f "$ROOT/.ai/NOW.md" ]]; then
     echo "checkpoint: provenance closeout failed" >&2
     exit 1
   fi
+  if ! "$SCRIPT_ROOT/doctor.sh" "$ROOT"; then
+    echo "checkpoint: doctor gate failed" >&2
+    exit 1
+  fi
 fi
 echo "Checkpoint for $ROOT"
 echo "Branch: $(git -C "$ROOT" branch --show-current 2>/dev/null || echo unknown)"
