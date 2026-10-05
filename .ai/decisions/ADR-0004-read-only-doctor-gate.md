@@ -6,7 +6,7 @@ updated: 2026-10-05
 verified_at_commit: 61ce4151555dbeafc924292034fa210f909aa1a2
 supersedes: null
 superseded_by: null
-evidence: .ai/changes/handoff-gate-v0.8/evidence.md
+evidence: .ai/archive/changes/handoff-gate-v0.8/evidence.md
 ---
 # ADR-0004-read-only-doctor-gate: Separate diagnosis from mutation
 
@@ -32,4 +32,4 @@ APMF's helpers now cover provenance closeout, lifecycle archival, reference vali
 
 ## Evidence and provenance
 
-See `.ai/changes/handoff-gate-v0.8/evidence.md` and the V0.8 handoff-gate tests.
+See `.ai/archive/changes/handoff-gate-v0.8/evidence.md` and the V0.8 handoff-gate tests.
