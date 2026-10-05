@@ -3,7 +3,7 @@ id: ADR-0004-read-only-doctor-gate
 status: accepted
 created: 2026-10-05
 updated: 2026-10-05
-verified_at_commit: unknown
+verified_at_commit: 61ce4151555dbeafc924292034fa210f909aa1a2
 supersedes: null
 superseded_by: null
 evidence: .ai/changes/handoff-gate-v0.8/evidence.md
