@@ -3,7 +3,7 @@ id: ADR-0003-current-memory-reference-checks
 status: accepted
 created: 2026-10-05
 updated: 2026-10-05
-verified_at_commit: unknown
+verified_at_commit: dfe1021fc34e943d670edd19353c6b8110bfd7b2
 supersedes: null
 superseded_by: null
 evidence: .ai/changes/reference-integrity-v0.7/evidence.md
