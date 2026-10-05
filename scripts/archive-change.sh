@@ -105,13 +105,20 @@ if (( CHECK_ONLY )); then
   echo "archive: READY $CHANGE"
   echo "  move: $OLD_PATH -> $NEW_PATH"
   echo "  route: NOW active change -> none; INDEX $index_label -> .ai/NOW.md"
-  for adr in "${adr_files[@]}"; do echo "  evidence: ${adr#$ROOT/} ($OLD_PATH -> $NEW_PATH)"; done
+  if (( ${#adr_files[@]} )); then
+    for adr in "${adr_files[@]}"; do echo "  evidence: ${adr#$ROOT/} ($OLD_PATH -> $NEW_PATH)"; done
+  fi
   exit 0
 fi
 
 SCRIPT_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 backup=$(mktemp -d "${TMPDIR:-/tmp}/apmf-archive.XXXXXX") || { echo "archive: cannot create rollback directory" >&2; exit 1; }
-route_files=("$NOW" "$INDEX" "${adr_files[@]}")
+route_files=("$NOW" "$INDEX")
+if (( ${#adr_files[@]} )); then
+  for adr in "${adr_files[@]}"; do
+    route_files+=("$adr")
+  done
+fi
 for file in "${route_files[@]}"; do
   rel=${file#$ROOT/}
   mkdir -p "$backup/$(dirname "$rel")" || { rm -rf "$backup"; echo "archive: cannot prepare rollback" >&2; exit 1; }
@@ -156,14 +163,16 @@ if ! {
   rm -f "$tmp"; rollback; echo "archive: failed to update INDEX.md" >&2; exit 1
 fi
 
-for adr in "${adr_files[@]}"; do
-  while IFS= read -r line || [[ -n "$line" ]]; do
-    printf '%s\n' "${line//$OLD_PATH/$NEW_PATH}"
-  done < "$adr" > "$tmp" || { rm -f "$tmp"; rollback; echo "archive: failed to update ${adr#$ROOT/}" >&2; exit 1; }
-  if ! mv "$tmp" "$adr"; then
-    rm -f "$tmp"; rollback; echo "archive: failed to save ${adr#$ROOT/}" >&2; exit 1
-  fi
-done
+if (( ${#adr_files[@]} )); then
+  for adr in "${adr_files[@]}"; do
+    while IFS= read -r line || [[ -n "$line" ]]; do
+      printf '%s\n' "${line//$OLD_PATH/$NEW_PATH}"
+    done < "$adr" > "$tmp" || { rm -f "$tmp"; rollback; echo "archive: failed to update ${adr#$ROOT/}" >&2; exit 1; }
+    if ! mv "$tmp" "$adr"; then
+      rm -f "$tmp"; rollback; echo "archive: failed to save ${adr#$ROOT/}" >&2; exit 1
+    fi
+  done
+fi
 
 if [[ -x "$SCRIPT_ROOT/validate.sh" ]] && ! "$SCRIPT_ROOT/validate.sh" "$ROOT"; then
   rollback
