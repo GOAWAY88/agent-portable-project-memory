@@ -12,6 +12,6 @@ Active change: **handoff-gate-v0.8-ci-fix**
 Current task: **Push the capability-aware handoff fixture and confirm Ubuntu/macOS CI.**
 Blockers: **none known**
 Next action: **Push the new fix commit; archive this change after the replacement Ubuntu/macOS CI run passes.**
-Last verified state: **At `main` commit `66f0e09` plus an uncommitted capability-aware test fix; the full local suite passes, while CI run `37258901334` remains the recorded macOS failure.**
+Last verified state: **At `main` commit `652a75c`; the full local suite passes, while CI run `37258901334` remains the recorded macOS failure.**
 
 Relevant pointers: `.ai/INDEX.md`, `.ai/changes/handoff-gate-v0.8-ci-fix/`, `.ai/archive/changes/handoff-gate-v0.8/`, `.ai/archive/changes/reference-integrity-v0.7/`, `spec/v0.8-handoff-gate.md`, `scripts/doctor.sh`, `scripts/checkpoint.sh`.
