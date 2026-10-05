@@ -3,4 +3,4 @@
 - [x] `DONE` Implement current-memory reference checker and ADR evidence validation
 - [x] `DONE` Add negative and cross-platform shell tests
 - [x] `DONE` Add CI, specification, ADR, and command documentation
-- [ ] `IN_PROGRESS` Run the final full suite, record dogfood, and archive this change
+- [x] `DONE` Run the final full suite, record dogfood, and archive this change

@@ -6,7 +6,7 @@ updated: 2026-10-05
 verified_at_commit: dfe1021fc34e943d670edd19353c6b8110bfd7b2
 supersedes: null
 superseded_by: null
-evidence: .ai/changes/reference-integrity-v0.7/evidence.md
+evidence: .ai/archive/changes/reference-integrity-v0.7/evidence.md
 ---
 # ADR-0003-current-memory-reference-checks: Check current routes without rewriting history
 
@@ -32,4 +32,4 @@ Check local references in current `.ai/` Markdown and ADR evidence front-matter,
 
 ## Evidence and provenance
 
-See `.ai/changes/reference-integrity-v0.7/evidence.md` and the reference-integrity tests.
+See `.ai/archive/changes/reference-integrity-v0.7/evidence.md` and the reference-integrity tests.
